@@ -9,22 +9,29 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    junit = "5.11.4"
+    mockito = "5.15.2"
+    snakeyaml = "2.4"
+    vavr = "0.10.6"
+}
+
 dependencies {
-    implementation 'io.vavr:vavr:0.10.4'
+    implementation "io.vavr:vavr:$vavr"
 
     // a versao 2.0 da erro
-    implementation('org.yaml:snakeyaml:2.0') {
-        version { strictly('2.0') }
+    implementation("org.yaml:snakeyaml:$snakeyaml") {
+        version { strictly("$snakeyaml") }
     }
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit"
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockito"
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit"
 }
 
 jacoco {
-    toolVersion = '0.8.8'
+    toolVersion = '0.8.12'
 }
 
 tasks.named("test") {

@@ -1,6 +1,6 @@
 # To build and run:
-# docker build -f Dockerfile.dev -t fc3-catalogo .
-# docker run fc3-catalogo
+# docker build -f Dockerfile.dev -t fc3-subscription .
+# docker run fc3-subscription
 
 # build stage
 FROM gradle:7.6.1-jdk17-alpine AS builder

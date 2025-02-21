@@ -3,10 +3,10 @@ plugins {
     id 'java-library'
 }
 
-group 'br.com.jkavdev.fullcycle.catalogo.domain'
+group 'br.com.jkavdev.fullcycle.subscription.domain'
 
 dependencies {
-    testImplementation('net.datafaker:datafaker:1.9.0')
+    testImplementation('net.datafaker:datafaker:2.4.2')
 }
 
 configurations {

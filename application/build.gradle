@@ -3,7 +3,7 @@ plugins {
     id 'java-library'
 }
 
-group 'br.com.jkavdev.fullcycle.catalogo.application'
+group 'br.com.jkavdev.fullcycle.subscription.application'
 
 dependencies {
     implementation(project(":domain"))
