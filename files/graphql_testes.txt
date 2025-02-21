@@ -1,0 +1,171 @@
+// listar categorias
+// query
+{
+	categories {
+		id
+		name
+	}
+}
+
+// listar categorias com filtros
+// query
+query AllCategories($search: String, $page: Int, $perPage: Int, $sort: String, $direction: String) {
+	categories(
+	  search: $search
+	  page: $page
+	  perPage: $perPage
+	  sort: $sort
+	  direction: $direction
+	) {
+	  id
+	  name
+	}
+}
+
+// variables
+{
+	"search": "qualquerCoisa",
+	"page": 1,
+	"perPage": 10,
+	"sort": "id",
+	"direction": "desc"
+}
+
+// listar categorias com varias consultas ao mesmo tempo, e criando um alias para cada uma
+// query
+query {
+	primeira: categories {
+	  id
+	}
+  
+  segunda: categories {
+	  id
+	}
+}
+
+// salvar categoria
+// query
+mutation SaveCategory($input: CategoryInput!) {
+	category: saveCategory(input: $input) {
+	  id
+	  name
+	  description
+	}
+}
+
+// variable  
+{
+	"input": {
+	  "id": "qualquerId",
+	  "name": "quaquerName",
+	  "description": "qualquerDescription",
+	  "active": true,
+	  "createdAt": "2025-01-12T23:16:01.940Z",
+	  "updatedAt": "2025-01-12T23:16:01.940Z",
+	  "deletedAt": "2025-01-12T23:16:01.940Z"
+	}
+}
+
+// salvar cast member
+mutation MyMutation {
+  saveCastMember(
+    input: {id: "2121", name: "2121", type: "DIRECTOR", updatedAt: "2025-02-04T03:47:18Z", createdAt: "2025-02-04T03:47:18Z"}
+  ) {
+    createdAt
+    id
+    name
+    type
+    updatedAt
+  }
+}
+
+// salvar genre
+mutation MyMutation($id: ID = "", $createdAt: String = "", $categories: [String] = "", $active: Boolean = false, $updatedAt: String = "", $deletedAt: String = "", $name: String = "") {
+  saveGenre(
+    input: {id: $id, name: $name, categories: $categories, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, active: $active}
+  ) {
+    id
+  }
+}
+
+{
+  "id": "31fafcd592a048109bcc0dsbdd38743213",
+  "name": "Marcuds Mellen",
+  "active": true,
+  "categories": [
+    "c1",
+    "c2"
+  ],
+  "createdAt": "2025-02-06T06:33:16.830Z",
+  "updatedAt": "2025-02-06T06:33:16.830Z",
+  "deletedAt": null
+}
+
+//listando genres
+query MyQuery {
+  genres(page: 10) {
+    active
+    categories
+    deletedAt
+    createdAt
+    id
+    name
+    updatedAt
+  }
+}
+
+// salvando video apenas com campos requeridos
+
+mutation MyMutation($input: VideoInput = {id: "", title: "", yearLaunched: 10, rating: "", duration: 1.5, createdAt: "", updatedAt: ""}) {
+  saveVideo(input: $input) {
+    id
+  }
+}
+
+{
+  "input": {
+    "id": "qualquerId",
+    "title": "qualquerTitle",
+    "rating": "L",
+    "duration": 1.5,
+    "yearLaunched": 2024,
+    "createdAt": "2025-02-06T06:33:16.830Z",
+    "updatedAt": "2025-02-06T06:33:16.830Z"
+  }
+}
+
+// com todos os parametros de relacionamento
+{
+  "input": {
+    "id": "qualquerId",
+    "title": "qualquerTitle",
+    "rating": "L",
+    "duration": 1.5,
+    "yearLaunched": 2024,
+    "createdAt": "2025-02-06T06:33:16.830Z",
+    "updatedAt": "2025-02-06T06:33:16.830Z",
+    "categoriesId": ["qualquerId"],
+    "castMembersId": ["2121"],
+    "categoriesId": ["31fafcd592a048109bcc0dsbdd38743213"]
+  }
+}
+
+// consultando tudo
+query MyQuery {
+  videos {
+    id
+    title
+  }
+  genres {
+    id
+    name
+  }
+  categories {
+    id
+    name
+  }
+  castMembers {
+    id
+    name
+  }
+}

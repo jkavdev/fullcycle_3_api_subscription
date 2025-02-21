@@ -1,0 +1,541 @@
+{
+	"info": {
+		"_postman_id": "be682ecf-c8e3-4cd3-b966-80af3e94d144",
+		"name": "fcc3-catalogo-videos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "946292"
+	},
+	"item": [
+		{
+			"name": "elasticsearch",
+			"item": [
+				{
+					"name": "index",
+					"item": [
+						{
+							"name": "elasticsearch - status",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9200/?pretty",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "pretty",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "elasticsearch - criar index categoria",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"settings\": {\r\n        \"index\": {\r\n            \"number_of_shards\": 1,\r\n            \"number_of_replicas\": 2\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"categories"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "elasticsearch - criar index categoria",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"settings\": {\r\n        \"index\": {\r\n            \"number_of_shards\": 1,\r\n            \"number_of_replicas\": 2\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9200/categories",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9200",
+											"path": [
+												"categories"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-elastic-product",
+											"value": "Elasticsearch"
+										},
+										{
+											"key": "Warning",
+											"value": "299 Elasticsearch-7.17.9-ef48222227ee6b9e70e502f0f0daa52435ee634d \"Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-minimal-setup.html to enable security.\""
+										},
+										{
+											"key": "content-type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "content-length",
+											"value": "77"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"acknowledged\": true,\n    \"shards_acknowledged\": true,\n    \"index\": \"categories\"\n}"
+								}
+							]
+						},
+						{
+							"name": "elasticsearch - totais de index",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9200/_count?pretty",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"_count"
+									],
+									"query": [
+										{
+											"key": "pretty",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "mapping",
+					"item": [
+						{
+							"name": "elasticsearch - get mapping",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9200/categories/_mapping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"categories",
+										"_mapping"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "elasticsearch - criar mapping",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"properties\": {\r\n        \"active\": {\r\n            \"type\": \"boolean\"\r\n        },\r\n        \"created_at\": {\r\n            \"type\": \"date\"\r\n        },\r\n        \"updated_at\": {\r\n            \"type\": \"date\"\r\n        },\r\n        \"deleted_at\": {\r\n            \"type\": \"date\"\r\n        },\r\n        \"description\": {\r\n            \"type\": \"text\"\r\n        },\r\n        \"id\": {\r\n            \"type\": \"keyword\"\r\n        },\r\n        \"name\": {\r\n            \"type\": \"text\",\r\n            \"fields\": {\r\n                \"keyword\": {\r\n                    \"type\": \"keyword\",\r\n                    \"ignore_above\": 256\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/categories/_mapping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"categories",
+										"_mapping"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "elasticsearch - criar mapping",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"properties\": {\r\n        \"active\": {\r\n            \"type\": \"boolean\"\r\n        },\r\n        \"created_at\": {\r\n            \"type\": \"date\"\r\n        },\r\n        \"updated_at\": {\r\n            \"type\": \"date\"\r\n        },\r\n        \"deleted_at\": {\r\n            \"type\": \"date\"\r\n        },\r\n        \"description\": {\r\n            \"type\": \"text\"\r\n        },\r\n        \"id\": {\r\n            \"type\": \"keyword\"\r\n        },\r\n        \"name\": {\r\n            \"type\": \"text\",\r\n            \"fields\": {\r\n                \"keyword\": {\r\n                    \"type\": \"keyword\",\r\n                    \"ignore_above\": 256\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9200/categories/_mapping",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9200",
+											"path": [
+												"categories",
+												"_mapping"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-elastic-product",
+											"value": "Elasticsearch"
+										},
+										{
+											"key": "Warning",
+											"value": "299 Elasticsearch-7.17.9-ef48222227ee6b9e70e502f0f0daa52435ee634d \"Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-minimal-setup.html to enable security.\""
+										},
+										{
+											"key": "content-type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "content-length",
+											"value": "47"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"acknowledged\": true\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "document",
+					"item": [
+						{
+							"name": "elasticsearch - criar documento categoria",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"qualquerName\",\r\n    \"description\": \"qualquerDescription\",\r\n    \"active\": \"true\",\r\n    \"created_at\": \"2025-01-12T23:16:01.940Z\",\r\n    \"updated_at\": \"2025-01-12T23:16:01.940Z\",\r\n    \"deleted_at\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/categories/_doc/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"categories",
+										"_doc",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "elasticsearch - criar documento categoria",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"qualquerName\",\r\n    \"description\": \"qualquerDescription\",\r\n    \"active\": \"true\",\r\n    \"created_at\": \"2025-01-12T23:16:01.940Z\",\r\n    \"updated_at\": \"2025-01-12T23:16:01.940Z\",\r\n    \"deleted_at\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9200/categories/_doc/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9200",
+											"path": [
+												"categories",
+												"_doc",
+												"1"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Location",
+											"value": "/categories/_doc/1"
+										},
+										{
+											"key": "X-elastic-product",
+											"value": "Elasticsearch"
+										},
+										{
+											"key": "Warning",
+											"value": "299 Elasticsearch-7.17.9-ef48222227ee6b9e70e502f0f0daa52435ee634d \"Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-minimal-setup.html to enable security.\""
+										},
+										{
+											"key": "content-type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "content-length",
+											"value": "141"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"_index\": \"categories\",\n    \"_type\": \"_doc\",\n    \"_id\": \"1\",\n    \"_version\": 1,\n    \"result\": \"created\",\n    \"_shards\": {\n        \"total\": 3,\n        \"successful\": 1,\n        \"failed\": 0\n    },\n    \"_seq_no\": 0,\n    \"_primary_term\": 1\n}"
+								}
+							]
+						},
+						{
+							"name": "elasticsearch - buscar documento categoria",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9200/categories/_doc/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"categories",
+										"_doc",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "elasticsearch - buscar documento categoria",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9200/categories/_doc/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9200",
+											"path": [
+												"categories",
+												"_doc",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-elastic-product",
+											"value": "Elasticsearch"
+										},
+										{
+											"key": "Warning",
+											"value": "299 Elasticsearch-7.17.9-ef48222227ee6b9e70e502f0f0daa52435ee634d \"Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-minimal-setup.html to enable security.\""
+										},
+										{
+											"key": "content-type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "content-encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "content-length",
+											"value": "222"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"_index\": \"categories\",\n    \"_type\": \"_doc\",\n    \"_id\": \"1\",\n    \"_version\": 2,\n    \"_seq_no\": 1,\n    \"_primary_term\": 1,\n    \"found\": true,\n    \"_source\": {\n        \"id\": 1,\n        \"name\": \"qualquerName\",\n        \"description\": \"qualquerDescription\",\n        \"active\": \"true\",\n        \"created_at\": \"2025-01-12T23:16:01.940Z\",\n        \"updated_at\": \"2025-01-12T23:16:01.940Z\",\n        \"deleted_at\": null\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "kafka-connect",
+			"item": [
+				{
+					"name": "MySQL Source",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\r\n    \"tasks.max\": \"1\",\r\n    \"key.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n    \"key.converter.schemas.enable\": \"true\",\r\n    \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n    \"value.converter.schemas.enable\": \"true\",\r\n    \"database.hostname\": \"mysql\",\r\n    \"database.port\": \"3306\",\r\n    \"database.user\": \"root\",\r\n    \"database.password\": \"123456\",\r\n    \"database.server.id\": \"10000\",\r\n    \"database.server.name\": \"adm_videos_mysql\",\r\n    \"database.allowPublicKeyRetrieval\": \"true\",\r\n    \"database.include.list\": \"adm_videos\",\r\n    \"table.include.list\": \"adm_videos.categories,adm_videos.cast_members,adm_videos.genres,adm_videos.videos\",\r\n    \"database.history.kafka.bootstrap.servers\": \"kafka:9092\",\r\n    \"database.history.kafka.topic\": \"adm_videos.dbhistory\",\r\n    \"include.schema.changes\": \"false\",\r\n    \"schema.enable\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/connectors/admin-mysql-cdc/config",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors",
+								"admin-mysql-cdc",
+								"config"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "configurado com sucesso",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\r\n    \"tasks.max\": \"1\",\r\n    \"key.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n    \"key.converter.schemas.enable\": \"true\",\r\n    \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n    \"value.converter.schemas.enable\": \"true\",\r\n    \"database.hostname\": \"mysql\",\r\n    \"database.port\": \"3306\",\r\n    \"database.user\": \"root\",\r\n    \"database.password\": \"123456\",\r\n    \"database.server.id\": \"10000\",\r\n    \"database.server.name\": \"adm_videos_mysql\",\r\n    \"database.allowPublicKeyRetrieval\": \"true\",\r\n    \"database.include.list\": \"adm_videos\",\r\n    \"table.include.list\": \"adm_videos.categories,adm_videos.cast_members,adm_videos.genres,adm_videos.videos\",\r\n    \"database.history.kafka.bootstrap.servers\": \"kafka:9092\",\r\n    \"database.history.kafka.topic\": \"adm_videos.dbhistory\",\r\n    \"include.schema.changes\": \"false\",\r\n    \"schema.enable\": \"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8083/connectors/admin-mysql-cdc/config",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors",
+										"admin-mysql-cdc",
+										"config"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 28 Jan 2025 02:29:25 GMT"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:8083/connectors/admin-mysql-cdc"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "897"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.24.v20191120)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"admin-mysql-cdc\",\n    \"config\": {\n        \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n        \"tasks.max\": \"1\",\n        \"key.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\n        \"key.converter.schemas.enable\": \"true\",\n        \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\n        \"value.converter.schemas.enable\": \"true\",\n        \"database.hostname\": \"mysql\",\n        \"database.port\": \"3306\",\n        \"database.user\": \"root\",\n        \"database.password\": \"123456\",\n        \"database.server.id\": \"10000\",\n        \"database.server.name\": \"adm_videos_mysql\",\n        \"database.allowPublicKeyRetrieval\": \"true\",\n        \"database.include.list\": \"adm_videos\",\n        \"table.include.list\": \"adm_videos.categories,adm_videos.cast_members,adm_videos.genres,adm_videos.videos\",\n        \"database.history.kafka.bootstrap.servers\": \"kafka:9092\",\n        \"database.history.kafka.topic\": \"adm_videos.dbhistory\",\n        \"include.schema.changes\": \"false\",\n        \"schema.enable\": \"false\",\n        \"name\": \"admin-mysql-cdc\"\n    },\n    \"tasks\": [],\n    \"type\": \"source\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
