@@ -25,4 +25,6 @@ jobs:
           distribution: 'temurin'
       # 3. Executar os testes da aplicação
       - name: Run application tests
+        run: chmod +x gradlew
+      - name: Run application tests
         run: ./gradlew test
