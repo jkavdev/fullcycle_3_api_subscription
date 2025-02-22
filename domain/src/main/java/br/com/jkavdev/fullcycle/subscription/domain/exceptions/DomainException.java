@@ -13,6 +13,10 @@ public class DomainException extends NoStacktraceException {
         this.errors = errors;
     }
 
+    public static DomainException with(final String aMessage) {
+        return new DomainException(aMessage, List.of(new Error(aMessage)));
+    }
+
     public static DomainException with(final List<Error> errors) {
         return new DomainException("", errors);
     }
