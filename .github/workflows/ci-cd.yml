@@ -30,6 +30,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       # 3. Executar os testes da aplicação
+      - name: given permission to gradlew
+        run: chmod +x ./gradlew
       - name: Run application tests
         run: ./gradlew test
 
