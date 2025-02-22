@@ -3,6 +3,7 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.configuration;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.configuration.annotations.Keycloak;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.configuration.properties.RestClientProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -15,6 +16,13 @@ import java.util.List;
 
 @Configuration(proxyBeanMethods = false)
 public class RestClientConfig {
+
+    @Bean
+    @ConfigurationProperties(prefix = "rest-client.keycloak")
+    @Keycloak
+    public RestClientProperties keycloakRestClientProperties() {
+        return new RestClientProperties();
+    }
 
     @Bean
     @Keycloak

@@ -19,7 +19,6 @@ ext {
 dependencies {
     implementation "io.vavr:vavr:$vavr"
 
-    // a versao 2.0 da erro
     implementation("org.yaml:snakeyaml:$snakeyaml") {
         version { strictly("$snakeyaml") }
     }

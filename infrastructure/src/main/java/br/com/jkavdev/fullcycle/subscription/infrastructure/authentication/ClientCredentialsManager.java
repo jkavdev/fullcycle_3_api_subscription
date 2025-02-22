@@ -27,7 +27,7 @@ public class ClientCredentialsManager implements GetClientCredentials, RefreshCl
     }
 
     @Override
-    public String retrive() {
+    public String retrieve() {
         return credentials.accessToken;
     }
 

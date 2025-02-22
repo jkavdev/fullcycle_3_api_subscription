@@ -25,7 +25,7 @@ class KeycloakAuthenticationGatewayTest extends AbstractRestClientTest {
         WireMock.stubFor(
                 WireMock.post(WireMock.urlPathEqualTo("/realms/test/protocol/openid-connect/token"))
                         .withHeader(HttpHeaders.ACCEPT, WireMock.equalTo(MediaType.APPLICATION_JSON_VALUE))
-                        .withHeader(HttpHeaders.CONTENT_TYPE, WireMock.equalTo(MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8"))
+                        .withHeader(HttpHeaders.CONTENT_TYPE, WireMock.equalTo(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                         .willReturn(WireMock.aResponse()
                                 .withStatus(200)
                                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +56,7 @@ class KeycloakAuthenticationGatewayTest extends AbstractRestClientTest {
         WireMock.stubFor(
                 WireMock.post(WireMock.urlPathEqualTo("/realms/test/protocol/openid-connect/token"))
                         .withHeader(HttpHeaders.ACCEPT, WireMock.equalTo(MediaType.APPLICATION_JSON_VALUE))
-                        .withHeader(HttpHeaders.CONTENT_TYPE, WireMock.equalTo(MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8"))
+                        .withHeader(HttpHeaders.CONTENT_TYPE, WireMock.equalTo(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                         .willReturn(WireMock.aResponse()
                                 .withStatus(200)
                                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
