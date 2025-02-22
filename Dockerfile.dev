@@ -3,7 +3,7 @@
 # docker run fc3-subscription
 
 # build stage
-FROM gradle:8.7.0-jdk21-alpine AS builder
+FROM gradle:8.12.0-jdk21-alpine AS builder
 
 WORKDIR /usr/app/
 
