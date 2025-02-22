@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.6_10-jre-alpine
+FROM eclipse-temurin:21.0.2_13-jre-alpine
 
 # copiando o jar gerado para a imagem
 COPY build/libs/*.jar /opt/app/application.jar
