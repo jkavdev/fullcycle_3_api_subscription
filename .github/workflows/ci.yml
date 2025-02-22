@@ -16,13 +16,13 @@ jobs:
     # Configuração de passos do nosso job
     steps:
       # 1. Check-out do código fonte
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # 2. Configurar a JDK na máquina
       - name: Set up JDK@21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'adopt'
+          distribution: 'temurin'
       # 3. Executar os testes da aplicação
       - name: Run application tests
         run: ./gradlew test
