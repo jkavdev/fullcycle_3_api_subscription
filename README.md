@@ -106,3 +106,11 @@ eh porque tem que mapear o `localhost` para esse `kafka` no `C:\Windows\System32
 
 TODOs: fazer o mesmo que foi feito para genero e video, no qual temos um input e output 
 no with, recebendo apenas o valor raw, e no construtor transformando para o objeto final
+
+* quando tiver dando problema de erros de permissao negada no github actions, em alguma parte que seja de executar algum comando
+
+pode ser que a gradlew nao tenha sido gerado, para isso rodar o comando abaixo
+
+```shell
+gradle wrapper
+```
