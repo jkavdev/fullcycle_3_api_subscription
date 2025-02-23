@@ -254,4 +254,118 @@ public class AccountTest {
 
     }
 
+    @Test
+    public void givenAccount_whenCallsExecuteWithProfileCommand_shouldUpdateNameAndAddress() {
+        // given
+        final var expectedId = new AccountId("qualquerId");
+        final var expectedVersion = 0;
+        final var expectedUserId = new UserId("qualquerUserId");
+        final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
+        final var expectedDocument = Document.create("qualquerCpf", "cpf");
+        final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
+        final var expectedEvents = 0;
+
+        final var actualAccount = Account.with(
+                expectedId,
+                expectedVersion,
+                expectedUserId,
+                expectedEmail,
+                new Name("qualquerOutroNome", "qualquerOutroSobrenome"),
+                expectedDocument,
+                null
+        );
+
+        // when
+        actualAccount.execute(new AccountCommand.ChangeProfileCommand(expectedName, expectedAddress));
+
+        // then
+        Assertions.assertNotNull(actualAccount);
+        Assertions.assertEquals(expectedId, actualAccount.id());
+        Assertions.assertEquals(expectedVersion, actualAccount.version());
+        Assertions.assertEquals(expectedUserId, actualAccount.userId());
+        Assertions.assertEquals(expectedEmail, actualAccount.email());
+        Assertions.assertEquals(expectedName, actualAccount.name());
+        Assertions.assertEquals(expectedDocument, actualAccount.document());
+        Assertions.assertEquals(expectedAddress, actualAccount.billingAddress());
+
+        Assertions.assertEquals(expectedEvents, actualAccount.domainEvents().size());
+    }
+
+    @Test
+    public void givenAccount_whenCallsExecuteWithEmailCommand_shouldUpdateEmail() {
+        // given
+        final var expectedId = new AccountId("qualquerId");
+        final var expectedVersion = 0;
+        final var expectedUserId = new UserId("qualquerUserId");
+        final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
+        final var expectedDocument = Document.create("qualquerCpf", "cpf");
+        final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
+        final var expectedEvents = 0;
+
+        final var actualAccount = Account.with(
+                expectedId,
+                expectedVersion,
+                expectedUserId,
+                new Email("qualquerOutroEmail@email.com"),
+                expectedName,
+                expectedDocument,
+                expectedAddress
+        );
+
+        // when
+        actualAccount.execute(new AccountCommand.ChangeEmailCommand(expectedEmail));
+
+        // then
+        Assertions.assertNotNull(actualAccount);
+        Assertions.assertEquals(expectedId, actualAccount.id());
+        Assertions.assertEquals(expectedVersion, actualAccount.version());
+        Assertions.assertEquals(expectedUserId, actualAccount.userId());
+        Assertions.assertEquals(expectedEmail, actualAccount.email());
+        Assertions.assertEquals(expectedName, actualAccount.name());
+        Assertions.assertEquals(expectedDocument, actualAccount.document());
+        Assertions.assertEquals(expectedAddress, actualAccount.billingAddress());
+
+        Assertions.assertEquals(expectedEvents, actualAccount.domainEvents().size());
+    }
+
+    @Test
+    public void givenAccount_whenCallsExecuteWithDocumentCommand_shouldUpdateDocument() {
+        // given
+        final var expectedId = new AccountId("qualquerId");
+        final var expectedVersion = 0;
+        final var expectedUserId = new UserId("qualquerUserId");
+        final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
+        final var expectedDocument = Document.create("qualquerCpf", "cpf");
+        final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
+        final var expectedEvents = 0;
+
+        final var actualAccount = Account.with(
+                expectedId,
+                expectedVersion,
+                expectedUserId,
+                expectedEmail,
+                expectedName,
+                Document.create("12345678910111", "cnpj"),
+                expectedAddress
+        );
+
+        // when
+        actualAccount.execute(new AccountCommand.ChangeDocumentCommand(expectedDocument));
+
+        // then
+        Assertions.assertNotNull(actualAccount);
+        Assertions.assertEquals(expectedId, actualAccount.id());
+        Assertions.assertEquals(expectedVersion, actualAccount.version());
+        Assertions.assertEquals(expectedUserId, actualAccount.userId());
+        Assertions.assertEquals(expectedEmail, actualAccount.email());
+        Assertions.assertEquals(expectedName, actualAccount.name());
+        Assertions.assertEquals(expectedDocument, actualAccount.document());
+        Assertions.assertEquals(expectedAddress, actualAccount.billingAddress());
+
+        Assertions.assertEquals(expectedEvents, actualAccount.domainEvents().size());
+    }
+
 }
