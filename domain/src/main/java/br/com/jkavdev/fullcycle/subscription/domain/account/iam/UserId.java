@@ -5,7 +5,7 @@ import br.com.jkavdev.fullcycle.subscription.domain.Identifier;
 public record UserId(String value) implements Identifier {
 
     public UserId {
-        this.assertArgumentNotNull(value, "'userId' should not be null");
+        this.assertArgumentNotEmpty(value, "'userId' should not be empty");
     }
 
 }

@@ -23,7 +23,7 @@ public class AccountTest {
         final var expectedVersion = 0;
         final var expectedUserId = new UserId("qualquerUserId");
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
 
         // when
@@ -53,7 +53,7 @@ public class AccountTest {
         final var expectedVersion = 1;
         final var expectedUserId = new UserId("qualquerUserId");
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
         final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
 
@@ -86,7 +86,7 @@ public class AccountTest {
         final var expectedVersion = 1;
         final var expectedUserId = new UserId("qualquerUserId");
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
         final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
 
@@ -115,7 +115,7 @@ public class AccountTest {
         final var expectedVersion = 0;
         final UserId expectedUserId = null;
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
         final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
 
@@ -144,7 +144,7 @@ public class AccountTest {
         final var expectedVersion = 1;
         final var expectedUserId = new UserId("qualquerUserId");
         final Name expectedName = null;
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
         final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
 
@@ -202,7 +202,7 @@ public class AccountTest {
         final var expectedVersion = 1;
         final var expectedUserId = new UserId("qualquerUserId");
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final Document expectedDocument = null;
         final var expectedAddress = new Address("qualquerCep", "qualquerNumero", "qualquerLugar", "qualquerPais");
 
@@ -231,7 +231,7 @@ public class AccountTest {
         final var expectedVersion = 1;
         final var expectedUserId = new UserId("qualquerUserId");
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
-        final var expectedEmail = new Email("qualquerEmail");
+        final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
         final Address expectedAddress = null;
 
