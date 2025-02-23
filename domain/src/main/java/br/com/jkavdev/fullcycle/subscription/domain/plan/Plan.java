@@ -60,6 +60,23 @@ public class Plan extends AggregateRoot<PlanId> {
         );
     }
 
+    public void execute(final PlanCommand... cmds) {
+        if (cmds == null) {
+            return;
+        }
+
+        for (final var cmd : cmds) {
+            switch (cmd) {
+                case PlanCommand.ActivatePlan c -> apply(c);
+                case PlanCommand.InactivePlan c -> apply(c);
+                case PlanCommand.ChangePlan c -> apply(c);
+            }
+        }
+
+        setVersion(version() + 1);
+        setUpdatedAt(InstantUtils.now());
+    }
+
     public static Plan with(
             final PlanId planId,
             final int aVersion,
@@ -114,6 +131,26 @@ public class Plan extends AggregateRoot<PlanId> {
 
     public Instant deletedAt() {
         return deletedAt;
+    }
+
+    private void apply(final PlanCommand.ActivatePlan cmd) {
+        setDeletedAt(null);
+        setActive(true);
+    }
+
+    private void apply(final PlanCommand.InactivePlan cmd) {
+        setDeletedAt(deletedAt() != null ? deletedAt() : InstantUtils.now());
+        setActive(false);
+    }
+
+    private void apply(final PlanCommand.ChangePlan cmd) {
+        setName(cmd.name());
+        setDescription(cmd.description());
+        if (Boolean.TRUE.equals(cmd.active())) {
+            apply(new PlanCommand.ActivatePlan());
+        } else {
+            apply(new PlanCommand.InactivePlan());
+        }
     }
 
     private void setVersion(final int version) {
