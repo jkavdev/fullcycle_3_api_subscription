@@ -56,6 +56,20 @@ public class Account extends AggregateRoot<AccountId> {
         return new Account(anAccountId, version, anUserId, anEmail, aName, aDocument, billingAddress);
     }
 
+    public void execute(final AccountCommand... cmds) {
+        if (cmds == null) {
+            return;
+        }
+
+        for (final var cmd : cmds) {
+            switch (cmd) {
+                case AccountCommand.ChangeProfileCommand c -> apply(c);
+                case AccountCommand.ChangeDocumentCommand c -> apply(c);
+                case AccountCommand.ChangeEmailCommand c -> apply(c);
+            }
+        }
+    }
+
     public int version() {
         return version;
     }
@@ -78,6 +92,19 @@ public class Account extends AggregateRoot<AccountId> {
 
     public Address billingAddress() {
         return billingAddress;
+    }
+
+    private void apply(final AccountCommand.ChangeProfileCommand cmd) {
+        setName(cmd.aName());
+        setBillingAddress(cmd.aAddress());
+    }
+
+    private void apply(final AccountCommand.ChangeDocumentCommand cmd) {
+        setDocument(cmd.aDocument());
+    }
+
+    private void apply(final AccountCommand.ChangeEmailCommand cmd) {
+        setEmail(cmd.anEmail());
     }
 
     private void setVersion(int version) {
