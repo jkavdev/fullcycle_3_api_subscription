@@ -17,7 +17,7 @@ public class PlanTest {
     @Test
     public void givenValidParams_whenCallsNewPlan_shouldInstantiate() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -44,7 +44,7 @@ public class PlanTest {
     @Test
     public void givenNullActive_whenCallsNewPlan_shouldInstantiate() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -71,7 +71,7 @@ public class PlanTest {
     @Test
     public void givenValidParams_whenCallsWith_shouldInstantiate() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -143,7 +143,7 @@ public class PlanTest {
     @Test
     public void givenInvalidName_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = " ";
         final var expectedDescription = "qualquerDescricao";
@@ -176,7 +176,7 @@ public class PlanTest {
     @Test
     public void givenNullName_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final String expectedName = null;
         final var expectedDescription = "qualquerDescricao";
@@ -209,7 +209,7 @@ public class PlanTest {
     @Test
     public void givenInvalidDescription_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = " ";
@@ -242,7 +242,7 @@ public class PlanTest {
     @Test
     public void givenNullDescription_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final String expectedDescription = null;
@@ -275,7 +275,7 @@ public class PlanTest {
     @Test
     public void givenNullActive_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -308,7 +308,7 @@ public class PlanTest {
     @Test
     public void given0AsPrice_whenCallsWith_shouldReturnOK() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -347,7 +347,7 @@ public class PlanTest {
     @Test
     public void givenNullCreatedAt_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -380,7 +380,7 @@ public class PlanTest {
     @Test
     public void givenNullUpdatedAt_whenCallsWith_shouldReturnError() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -413,7 +413,7 @@ public class PlanTest {
     @Test
     public void givenNullDeletedAt_whenCallsWith_shouldReturnOK() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 0;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -452,7 +452,7 @@ public class PlanTest {
     @Test
     public void givenPlan_whenExecuteWithoutCommands_shouldDoNothing() {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 1;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -481,7 +481,7 @@ public class PlanTest {
     @Test
     public void givenActivePlan_whenExecuteInactiveCommand_shouldInactivate() throws InterruptedException {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 1;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -514,7 +514,7 @@ public class PlanTest {
     @Test
     public void givenInactivePlan_whenExecuteActiveCommand_shouldActivate() throws InterruptedException {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 1;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -547,7 +547,7 @@ public class PlanTest {
     @Test
     public void givenPlanWithActiveFalse_whenExecuteChangeCommand_shouldUpdateAttributesAndInactivate() throws InterruptedException {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 1;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
@@ -582,7 +582,7 @@ public class PlanTest {
     @Test
     public void givenPlanWithActiveTrue_whenExecuteChangeCommand_shouldUpdateAttributesAndActivate() throws InterruptedException {
         // given
-        final var expectedId = new PlanId("qualquerId");
+        final var expectedId = new PlanId(123L);
         final var expectedVersion = 1;
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";

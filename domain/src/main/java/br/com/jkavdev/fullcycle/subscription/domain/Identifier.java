@@ -1,7 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.domain;
 
-public interface Identifier extends ValueObject {
+public interface Identifier<T> extends ValueObject {
 
-    String value();
+    T value();
 
 }
