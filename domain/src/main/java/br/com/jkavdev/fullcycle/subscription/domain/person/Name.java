@@ -9,4 +9,7 @@ public record Name(String firstname, String lastname) implements ValueObject {
         this.assertArgumentNotEmpty(lastname, "'lastname' should not be empty");
     }
 
+    public String fullname() {
+        return firstname().concat(" ").concat(lastname());
+    }
 }

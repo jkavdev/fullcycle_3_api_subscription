@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public class AccountTest {
 
     @Test
-    public void givenValidParams_whenCallsNewAccount_shouldInstantiate() {
+    public void givenValidParams_whenCallsNewAccount_shouldInstantiateAndDispatchEvent() {
         // given
         final var expectedId = new AccountId("qualquerId");
         final var expectedVersion = 0;
@@ -25,6 +25,7 @@ public class AccountTest {
         final var expectedName = new Name("qualquerNome", "qualquerSobrenome");
         final var expectedEmail = new Email("qualquerEmail@email.com");
         final var expectedDocument = Document.create("qualquerCpf", "cpf");
+        final var expectedEvents = 1;
 
         // when
         final var actualAccount = Account.newAccount(
@@ -44,6 +45,9 @@ public class AccountTest {
         Assertions.assertEquals(expectedName, actualAccount.name());
         Assertions.assertEquals(expectedDocument, actualAccount.document());
         Assertions.assertNull(actualAccount.billingAddress());
+
+        Assertions.assertEquals(expectedEvents, actualAccount.domainEvents().size());
+        Assertions.assertInstanceOf(AccountEvent.AccountCreated.class, actualAccount.domainEvents().getFirst());
     }
 
     @Test

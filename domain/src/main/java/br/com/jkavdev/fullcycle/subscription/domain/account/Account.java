@@ -41,7 +41,9 @@ public class Account extends AggregateRoot<AccountId> {
             final Name aName,
             final Document aDocument
     ) {
-        return new Account(anAccountId, 0, anUserId, anEmail, aName, aDocument, null);
+        final var anAccount = new Account(anAccountId, 0, anUserId, anEmail, aName, aDocument, null);
+        anAccount.registerEvent(new AccountEvent.AccountCreated(anAccount));
+        return anAccount;
     }
 
     public static Account with(
