@@ -1,6 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.domain.plan;
 
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
+import br.com.jkavdev.fullcycle.subscription.domain.money.Money;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.InstantUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         // when
         final var actualPlan =
@@ -49,7 +50,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final Boolean expectedActive = null;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         // when
         final var actualPlan =
@@ -76,7 +77,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -115,7 +116,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -148,7 +149,7 @@ public class PlanTest {
         final var expectedName = " ";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -181,7 +182,7 @@ public class PlanTest {
         final String expectedName = null;
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -214,7 +215,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = " ";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -247,7 +248,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final String expectedDescription = null;
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -280,7 +281,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final Boolean expectedActive = null;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -313,7 +314,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 0.0);
+        final var expectedPrice = new Money("BRL", 0.0);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -352,7 +353,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final Instant expectedCreatedAt = null;
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDeletedAt = InstantUtils.now();
@@ -385,7 +386,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final Instant expectedUpdatedAt = null;
         final var expectedDeletedAt = InstantUtils.now();
@@ -418,7 +419,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final Instant expectedDeletedAt = null;
@@ -457,7 +458,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
                 Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
@@ -486,7 +487,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
                 Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
@@ -519,7 +520,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = false;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
                 Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
@@ -552,7 +553,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = true;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
                 Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
@@ -587,7 +588,7 @@ public class PlanTest {
         final var expectedName = "qualquerNome";
         final var expectedDescription = "qualquerDescricao";
         final var expectedActive = false;
-        final var expectedPrice = new MonetaryAmount("BRL", 20.99);
+        final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
                 Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
