@@ -9,12 +9,19 @@ import java.time.Instant;
 public class Plan extends AggregateRoot<PlanId> {
 
     private int version;
+
     private String name;
+
     private String description;
+
     private boolean active;
+
     private Money price;
+
     private Instant createdAt;
+
     private Instant updatedAt;
+
     private Instant deletedAt;
 
     public Plan(
@@ -166,7 +173,7 @@ public class Plan extends AggregateRoot<PlanId> {
 
     private void setDescription(final String description) {
         this.assertArgumentNotEmpty(description, "'description' should not be empty");
-        this.assertArgumentMaxLength(description, 500, "'description' should have more than 100 characters");
+        this.assertArgumentMaxLength(description, 500, "'description' should not have more than 500 characters");
         this.description = description;
     }
 

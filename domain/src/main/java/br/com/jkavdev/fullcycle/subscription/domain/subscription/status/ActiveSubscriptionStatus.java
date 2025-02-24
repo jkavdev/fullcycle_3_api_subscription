@@ -1,28 +1,29 @@
 package br.com.jkavdev.fullcycle.subscription.domain.subscription.status;
 
+import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription;
-import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.ChangeStatus;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand;
 
-public record TrailingSubscriptionStatus(Subscription subscription) implements SubscriptionStatus {
+public record ActiveSubscriptionStatus(Subscription subscription) implements SubscriptionStatus {
 
     @Override
     public void trailing() {
-        // nao faz nada
+        throw DomainException.with("subscription with status active can't transit to trailing");
     }
 
     @Override
     public void incomplete() {
-        subscription.execute(new ChangeStatus(new IncompleteSubscriptionStatus(subscription)));
+        subscription.execute(new SubscriptionCommand.ChangeStatus(new IncompleteSubscriptionStatus(subscription)));
     }
 
     @Override
     public void active() {
-        subscription.execute(new ChangeStatus(new ActiveSubscriptionStatus(subscription)));
+        // nao faz nada
     }
 
     @Override
     public void cancel() {
-        subscription.execute(new ChangeStatus(new CanceledSubscriptionStatus(subscription)));
+        subscription.execute(new SubscriptionCommand.ChangeStatus(new CanceledSubscriptionStatus(subscription)));
     }
 
     @Override
