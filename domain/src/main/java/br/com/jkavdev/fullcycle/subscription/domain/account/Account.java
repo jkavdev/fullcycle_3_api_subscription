@@ -10,10 +10,15 @@ import br.com.jkavdev.fullcycle.subscription.domain.person.Name;
 public class Account extends AggregateRoot<AccountId> {
 
     private int version;
+
     private UserId userId;
+
     private Email email;
+
     private Name name;
+
     private Document document;
+
     private Address billingAddress;
 
     private Account(

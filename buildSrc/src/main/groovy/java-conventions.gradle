@@ -40,19 +40,19 @@ tasks.named("test") {
     useJUnitPlatform()
 }
 
-task unitTests(type: Test, group: 'verification') {
+tasks.register('unitTests', Test) {
     useJUnitPlatform {
         includeTags('unitTests')
     }
 }
 
-task integrationTests(type: Test, group: 'verification') {
+tasks.register('integrationTests', Test) {
     useJUnitPlatform {
         includeTags('integrationTests')
     }
 }
 
-task e2eTests(type: Test, group: 'verification') {
+tasks.register('e2eTests', Test) {
     useJUnitPlatform {
         includeTags('e2eTests')
     }
