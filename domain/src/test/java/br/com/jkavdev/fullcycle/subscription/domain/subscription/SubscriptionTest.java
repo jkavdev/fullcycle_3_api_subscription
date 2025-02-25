@@ -33,7 +33,7 @@ public class SubscriptionTest {
         final var expectedStatus = SubscriptionStatus.TRAILING;
         final var expectedDuedate = LocalDate.now().plusMonths(1);
         final Instant expectedLastRenewDate = null;
-        final String expectedLasttransactionId = null;
+        final String expectedLastTransactionId = null;
         final var expectedEvents = 1;
 
         // when
@@ -49,7 +49,7 @@ public class SubscriptionTest {
         Assertions.assertEquals(expectedDuedate, actualSubscription.dueDate());
         Assertions.assertEquals(expectedStatus, actualSubscription.status().value());
         Assertions.assertEquals(expectedLastRenewDate, actualSubscription.lastRenewDate());
-        Assertions.assertEquals(expectedLasttransactionId, actualSubscription.lastTransactionId());
+        Assertions.assertEquals(expectedLastTransactionId, actualSubscription.lastTransactionId());
         Assertions.assertNotNull(actualSubscription.createdAt());
         Assertions.assertNotNull(actualSubscription.updatedAt());
 
@@ -69,7 +69,7 @@ public class SubscriptionTest {
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDuedate = LocalDate.now().plusMonths(1);
         final var expectedLastRenewDate = InstantUtils.now().minus(1, ChronoUnit.DAYS);
-        final var expectedLasttransactionId = UUID.randomUUID().toString();
+        final var expectedLastTransactionId = UUID.randomUUID().toString();
 
         // when
         final var actualSubscription = Subscription.with(
@@ -80,7 +80,7 @@ public class SubscriptionTest {
                 expectedDuedate,
                 expectedStatus,
                 expectedLastRenewDate,
-                expectedLasttransactionId,
+                expectedLastTransactionId,
                 expectedCreatedAt,
                 expectedUpdatedAt
         );
@@ -94,7 +94,7 @@ public class SubscriptionTest {
         Assertions.assertEquals(expectedDuedate, actualSubscription.dueDate());
         Assertions.assertEquals(expectedStatus, actualSubscription.status().value());
         Assertions.assertEquals(expectedLastRenewDate, actualSubscription.lastRenewDate());
-        Assertions.assertEquals(expectedLasttransactionId, actualSubscription.lastTransactionId());
+        Assertions.assertEquals(expectedLastTransactionId, actualSubscription.lastTransactionId());
         Assertions.assertEquals(expectedCreatedAt, actualSubscription.createdAt());
         Assertions.assertEquals(expectedUpdatedAt, actualSubscription.updatedAt());
 
@@ -113,7 +113,7 @@ public class SubscriptionTest {
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDuedate = LocalDate.now();
         final Instant expectedLastRenewDate = null;
-        final var expectedLasttransactionId = UUID.randomUUID().toString();
+        final var expectedLastTransactionId = UUID.randomUUID().toString();
         final var expectedEvents = 1;
 
         final var expectedReason = "fail to charge credit card";
@@ -132,7 +132,7 @@ public class SubscriptionTest {
         );
 
         // when
-        actualSubscription.execute(new IncompleteSubscription(expectedReason, expectedLasttransactionId));
+        actualSubscription.execute(new IncompleteSubscription(expectedReason, expectedLastTransactionId));
 
         // then
         Assertions.assertNotNull(actualSubscription);
@@ -143,7 +143,7 @@ public class SubscriptionTest {
         Assertions.assertEquals(expectedDuedate, actualSubscription.dueDate());
         Assertions.assertEquals(expectedStatus, actualSubscription.status().value());
         Assertions.assertEquals(expectedLastRenewDate, actualSubscription.lastRenewDate());
-        Assertions.assertEquals(expectedLasttransactionId, actualSubscription.lastTransactionId());
+        Assertions.assertEquals(expectedLastTransactionId, actualSubscription.lastTransactionId());
         Assertions.assertEquals(expectedCreatedAt, actualSubscription.createdAt());
         Assertions.assertTrue(actualSubscription.updatedAt().isAfter(expectedUpdatedAt));
 
@@ -163,7 +163,7 @@ public class SubscriptionTest {
         final var expectedCreatedAt = InstantUtils.now();
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDuedate = LocalDate.now().plusMonths(1);
-        final var expectedLasttransactionId = UUID.randomUUID().toString();
+        final var expectedLastTransactionId = UUID.randomUUID().toString();
         final var expectedEvents = 1;
 
         final var actualSubscription = Subscription.with(
@@ -180,7 +180,7 @@ public class SubscriptionTest {
         );
 
         // when
-        actualSubscription.execute(new RenewSubscription(expectedPlan, expectedLasttransactionId));
+        actualSubscription.execute(new RenewSubscription(expectedPlan, expectedLastTransactionId));
 
         // then
         Assertions.assertNotNull(actualSubscription);
@@ -191,7 +191,7 @@ public class SubscriptionTest {
         Assertions.assertEquals(expectedDuedate, actualSubscription.dueDate());
         Assertions.assertEquals(expectedStatus, actualSubscription.status().value());
         Assertions.assertNotNull(actualSubscription.lastRenewDate());
-        Assertions.assertEquals(expectedLasttransactionId, actualSubscription.lastTransactionId());
+        Assertions.assertEquals(expectedLastTransactionId, actualSubscription.lastTransactionId());
         Assertions.assertEquals(expectedCreatedAt, actualSubscription.createdAt());
         Assertions.assertTrue(actualSubscription.updatedAt().isAfter(expectedUpdatedAt));
 
@@ -211,7 +211,7 @@ public class SubscriptionTest {
         final var expectedUpdatedAt = InstantUtils.now();
         final var expectedDuedate = LocalDate.now().plusMonths(1);
         final var expectedLastRenewDate = InstantUtils.now();
-        final var expectedLasttransactionId = UUID.randomUUID().toString();
+        final var expectedLastTransactionId = UUID.randomUUID().toString();
         final var expectedEvents = 1;
 
         final var actualSubscription = Subscription.with(
@@ -222,7 +222,7 @@ public class SubscriptionTest {
                 expectedDuedate,
                 SubscriptionStatus.TRAILING,
                 expectedLastRenewDate,
-                expectedLasttransactionId,
+                expectedLastTransactionId,
                 expectedCreatedAt,
                 expectedUpdatedAt
         );
@@ -239,7 +239,7 @@ public class SubscriptionTest {
         Assertions.assertEquals(expectedDuedate, actualSubscription.dueDate());
         Assertions.assertEquals(expectedStatus, actualSubscription.status().value());
         Assertions.assertNotNull(actualSubscription.lastRenewDate());
-        Assertions.assertEquals(expectedLasttransactionId, actualSubscription.lastTransactionId());
+        Assertions.assertEquals(expectedLastTransactionId, actualSubscription.lastTransactionId());
         Assertions.assertEquals(expectedCreatedAt, actualSubscription.createdAt());
         Assertions.assertTrue(actualSubscription.updatedAt().isAfter(expectedUpdatedAt));
 

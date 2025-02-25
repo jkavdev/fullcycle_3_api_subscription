@@ -22,6 +22,7 @@ public record SubscriptionRenewed(
         this.assertArgumentNotEmpty(subscriptionId, "'subscriptionId' should not be empty");
         this.assertArgumentNotEmpty(accountId, "'accountId' should not be empty");
         this.assertArgumentNotNull(planId, "'planId' should not be null");
+        this.assertArgumentNotEmpty(transactionId, "'transactionId' should not be empty");
         this.assertArgumentNotNull(dueDate, "'dueDate' should not be null");
         this.assertArgumentNotEmpty(currency, "'currency' should not be empty");
         this.assertArgumentNotNull(amount, "'amount' should not be null");
