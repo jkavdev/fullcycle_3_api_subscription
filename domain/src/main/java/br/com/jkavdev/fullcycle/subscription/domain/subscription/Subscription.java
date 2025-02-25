@@ -4,7 +4,10 @@ import br.com.jkavdev.fullcycle.subscription.domain.AggregateRoot;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.Plan;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanId;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.CancelSubscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.ChangeStatus;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.IncompleteSubscription;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.RenewSubscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.status.SubscriptionStatus;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.InstantUtils;
 
@@ -62,7 +65,7 @@ public class Subscription extends AggregateRoot<SubscriptionId> {
             final Plan selectedPlan
     ) {
         final var now = InstantUtils.now();
-        return new Subscription(
+        final var aNewSubscription = new Subscription(
                 anId,
                 0,
                 anAccountId,
@@ -74,6 +77,8 @@ public class Subscription extends AggregateRoot<SubscriptionId> {
                 now,
                 now
         );
+        aNewSubscription.registerEvent(new SubscriptionCreated(aNewSubscription));
+        return aNewSubscription;
     }
 
     public static Subscription with(
@@ -110,6 +115,9 @@ public class Subscription extends AggregateRoot<SubscriptionId> {
         for (final var cmd : cmds) {
             switch (cmd) {
                 case ChangeStatus c -> apply(c);
+                case IncompleteSubscription c -> apply(c);
+                case RenewSubscription c -> apply(c);
+                case CancelSubscription c -> apply(c);
             }
         }
 
@@ -152,8 +160,27 @@ public class Subscription extends AggregateRoot<SubscriptionId> {
         return updatedAt;
     }
 
+    private void apply(final IncompleteSubscription cmd) {
+        status().incomplete();
+        setLastTransactionId(cmd.aTransactionId());
+        registerEvent(new SubscriptionIncomplete(this, cmd.aReason()));
+    }
+
+    private void apply(final RenewSubscription cmd) {
+        status().active();
+        setLastTransactionId(cmd.aTransactionId());
+        setDueDate(dueDate.plusMonths(1));
+        setLastRenewDate(InstantUtils.now());
+        registerEvent(new SubscriptionRenewed(this, cmd.selectedPlan()));
+    }
+
+    private void apply(final CancelSubscription cmd) {
+        status().cancel();
+        registerEvent(new SubscriptionCanceled(this));
+    }
+
     private void apply(final ChangeStatus cmd) {
-        setStatus(cmd.status());
+        setStatus(SubscriptionStatus.create(cmd.status(), this));
     }
 
     private void setVersion(int version) {

@@ -13,7 +13,7 @@ public record ActiveSubscriptionStatus(Subscription subscription) implements Sub
 
     @Override
     public void incomplete() {
-        subscription.execute(new SubscriptionCommand.ChangeStatus(new IncompleteSubscriptionStatus(subscription)));
+        subscription.execute(new SubscriptionCommand.ChangeStatus(INCOMPLETE));
     }
 
     @Override
@@ -23,7 +23,7 @@ public record ActiveSubscriptionStatus(Subscription subscription) implements Sub
 
     @Override
     public void cancel() {
-        subscription.execute(new SubscriptionCommand.ChangeStatus(new CanceledSubscriptionStatus(subscription)));
+        subscription.execute(new SubscriptionCommand.ChangeStatus(CANCELED));
     }
 
     @Override
