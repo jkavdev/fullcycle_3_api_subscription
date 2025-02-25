@@ -102,7 +102,7 @@ public class SubscriptionTest {
     }
 
     @Test
-    public void givenTrialingSubscription_whenExecuteIncompleteCommand_shouldTransitToIncompleteState() {
+    public void givenTrialingSubscription_whenExecuteIncompleteCommand_shouldTransitToIncompleteState() throws InterruptedException {
         // given
         final var expectedId = new SubscriptionId("qualquerId");
         final var expectedVersion = 0;
@@ -131,6 +131,8 @@ public class SubscriptionTest {
                 expectedUpdatedAt
         );
 
+        Thread.sleep(1);
+
         // when
         actualSubscription.execute(new IncompleteSubscription(expectedReason, expectedLastTransactionId));
 
@@ -152,7 +154,7 @@ public class SubscriptionTest {
     }
 
     @Test
-    public void givenTrialingSubscription_whenExecuteRenewCommand_shouldTransitToActiveState() {
+    public void givenTrialingSubscription_whenExecuteRenewCommand_shouldTransitToActiveState() throws InterruptedException {
         // given
         final var expectedPlan = Fixture.Plans.plus();
         final var expectedId = new SubscriptionId("qualquerId");
@@ -179,6 +181,8 @@ public class SubscriptionTest {
                 expectedUpdatedAt
         );
 
+        Thread.sleep(1);
+
         // when
         actualSubscription.execute(new RenewSubscription(expectedPlan, expectedLastTransactionId));
 
@@ -200,7 +204,7 @@ public class SubscriptionTest {
     }
 
     @Test
-    public void givenTrialingSubscription_whenExecuteCancelCommand_shouldTransitToCanceledState() {
+    public void givenTrialingSubscription_whenExecuteCancelCommand_shouldTransitToCanceledState() throws InterruptedException {
         // given
         final var expectedId = new SubscriptionId("qualquerId");
         final var expectedVersion = 0;
@@ -226,6 +230,8 @@ public class SubscriptionTest {
                 expectedCreatedAt,
                 expectedUpdatedAt
         );
+
+        Thread.sleep(1);
 
         // when
         actualSubscription.execute(new CancelSubscription());
