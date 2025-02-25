@@ -1,6 +1,6 @@
 package br.com.jkavdev.fullcycle.subscription.domain.account;
 
-import br.com.jkavdev.fullcycle.subscription.domain.account.iam.UserId;
+import br.com.jkavdev.fullcycle.subscription.domain.account.idp.UserId;
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Address;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Document;

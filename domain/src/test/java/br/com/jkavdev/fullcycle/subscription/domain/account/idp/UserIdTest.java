@@ -1,4 +1,4 @@
-package br.com.jkavdev.fullcycle.subscription.domain.account.iam;
+package br.com.jkavdev.fullcycle.subscription.domain.account.idp;
 
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
 import org.junit.jupiter.api.Assertions;
