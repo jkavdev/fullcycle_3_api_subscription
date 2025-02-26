@@ -8,7 +8,10 @@ import br.com.jkavdev.fullcycle.subscription.domain.account.idp.UserId;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.AdditionalAnswers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 class DefaultCreateAccountTest extends UnitTest {
 

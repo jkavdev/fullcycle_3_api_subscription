@@ -7,10 +7,15 @@ public abstract class CreateAccount extends UseCase<CreateAccount.Input, CreateA
 
     public interface Input {
         String userId();
+
         String firstname();
+
         String lastname();
+
         String email();
+
         String documentNumber();
+
         String documentType();
     }
 

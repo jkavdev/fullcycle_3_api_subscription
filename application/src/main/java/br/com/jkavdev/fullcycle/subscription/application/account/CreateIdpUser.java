@@ -7,12 +7,15 @@ public abstract class CreateIdpUser extends UseCase<CreateIdpUser.Input, CreateI
 
     public interface Input {
         String firstname();
+
         String lastname();
+
         String email();
+
         String password();
     }
 
-    public interface Output{
+    public interface Output {
         UserId idpUserId();
     }
 
