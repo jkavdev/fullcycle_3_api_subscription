@@ -19,6 +19,9 @@ public class DefaultCreateIdpUser extends CreateIdpUser {
 
     @Override
     public Output execute(final Input input) {
+        if (input == null) {
+            throw new IllegalArgumentException("input to DefaultCreateIdpUser cannot be null");
+        }
         return new StdOutput(identityProviderGateway.create(userWith(input)));
     }
 
