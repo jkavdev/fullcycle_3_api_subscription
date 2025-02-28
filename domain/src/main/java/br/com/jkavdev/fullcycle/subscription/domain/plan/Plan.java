@@ -154,6 +154,7 @@ public class Plan extends AggregateRoot<PlanId> {
     private void apply(final PlanCommand.ChangePlan cmd) {
         setName(cmd.name());
         setDescription(cmd.description());
+        setPrice(cmd.money());
         if (Boolean.TRUE.equals(cmd.active())) {
             apply(new PlanCommand.ActivatePlan());
         } else {

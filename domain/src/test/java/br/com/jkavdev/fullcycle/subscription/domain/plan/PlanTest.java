@@ -556,7 +556,7 @@ public class PlanTest {
         final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
-                Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
+                Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, new Money("BRL", 2.99));
 
         final var expectedNewName = "qualquerNovoNome";
         final var expectedNewDescription = "qualquerNovoDescricao";
@@ -565,7 +565,12 @@ public class PlanTest {
         Thread.sleep(1); // para que o updatedat seja atualizado com um valor diferente
 
         // when
-        actualPlan.execute(new PlanCommand.ChangePlan(expectedNewName, expectedNewDescription, expectedNewActive));
+        actualPlan.execute(new PlanCommand.ChangePlan(
+                expectedNewName,
+                expectedNewDescription,
+                expectedPrice,
+                expectedNewActive
+        ));
 
         // then
         Assertions.assertNotNull(actualPlan);
@@ -591,7 +596,7 @@ public class PlanTest {
         final var expectedPrice = new Money("BRL", 20.99);
 
         final var actualPlan =
-                Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, expectedPrice);
+                Plan.newPlan(expectedId, expectedName, expectedDescription, expectedActive, new Money("BRL", 2.99));
 
         final var expectedNewName = "qualquerNovoNome";
         final var expectedNewDescription = "qualquerNovoDescricao";
@@ -600,7 +605,12 @@ public class PlanTest {
         Thread.sleep(1); // para que o updatedat seja atualizado com um valor diferente
 
         // when
-        actualPlan.execute(new PlanCommand.ChangePlan(expectedNewName, expectedNewDescription, expectedNewActive));
+        actualPlan.execute(new PlanCommand.ChangePlan(
+                expectedNewName,
+                expectedNewDescription,
+                expectedPrice,
+                expectedNewActive
+        ));
 
         // then
         Assertions.assertNotNull(actualPlan);
