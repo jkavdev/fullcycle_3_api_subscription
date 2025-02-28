@@ -1,6 +1,6 @@
 package br.com.jkavdev.fullcycle.subscription.application.account.impl;
 
-import br.com.jkavdev.fullcycle.subscription.application.account.AddToSubscribersGroup;
+import br.com.jkavdev.fullcycle.subscription.application.account.AddToGroup;
 import br.com.jkavdev.fullcycle.subscription.domain.Fixture;
 import br.com.jkavdev.fullcycle.subscription.domain.UnitTest;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountGateway;
@@ -17,10 +17,10 @@ import org.mockito.Mockito;
 
 import java.util.Optional;
 
-class DefaultAddToSubscribersGroupTest extends UnitTest {
+class DefaultAddToGroupTest extends UnitTest {
 
     @InjectMocks
-    DefaultAddToSubscribersGroup target;
+    DefaultAddToGroup target;
 
     @Mock
     private IdentityProviderGateway identityProviderGateway;
@@ -52,7 +52,7 @@ class DefaultAddToSubscribersGroupTest extends UnitTest {
                 .addUserToGroup(ArgumentMatchers.any(), ArgumentMatchers.any());
 
         // when
-        target.execute(new AddToSubscribersGroupTestInput(
+        target.execute(new AddToGroupTestInput(
                 expectedAccountId.value(),
                 expectedGroupId.value(),
                 expectedSubscriptionId.value()
@@ -69,11 +69,11 @@ class DefaultAddToSubscribersGroupTest extends UnitTest {
                 .addUserToGroup(jhou.userId(), expectedGroupId);
     }
 
-    record AddToSubscribersGroupTestInput(
+    record AddToGroupTestInput(
             String accountId,
             String groupId,
             String subscriptionId
-    ) implements AddToSubscribersGroup.Input {
+    ) implements AddToGroup.Input {
 
     }
 

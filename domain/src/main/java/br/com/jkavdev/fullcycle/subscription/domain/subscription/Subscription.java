@@ -8,9 +8,7 @@ import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCom
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.ChangeStatus;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.IncompleteSubscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand.RenewSubscription;
-import br.com.jkavdev.fullcycle.subscription.domain.subscription.status.ActiveSubscriptionStatus;
-import br.com.jkavdev.fullcycle.subscription.domain.subscription.status.SubscriptionStatus;
-import br.com.jkavdev.fullcycle.subscription.domain.subscription.status.TrailingSubscriptionStatus;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.status.*;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.InstantUtils;
 
 import java.time.Instant;
@@ -234,4 +232,13 @@ public class Subscription extends AggregateRoot<SubscriptionId> {
     public boolean isActive() {
         return status instanceof ActiveSubscriptionStatus;
     }
+
+    public boolean isCanceled() {
+        return status instanceof CanceledSubscriptionStatus;
+    }
+
+    public boolean isComplete() {
+        return status instanceof IncompleteSubscriptionStatus;
+    }
+
 }

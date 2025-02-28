@@ -114,3 +114,7 @@ pode ser que a gradlew nao tenha sido gerado, para isso rodar o comando abaixo
 ```shell
 gradle wrapper
 ```
+
+# TODOs
+
+* implementar outros testes unitarios mencionados na aula 0704
