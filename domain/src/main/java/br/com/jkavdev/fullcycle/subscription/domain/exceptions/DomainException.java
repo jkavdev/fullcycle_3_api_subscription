@@ -1,5 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.domain.exceptions;
 
+import br.com.jkavdev.fullcycle.subscription.domain.AggregateRoot;
+import br.com.jkavdev.fullcycle.subscription.domain.Identifier;
 import br.com.jkavdev.fullcycle.subscription.domain.validation.Error;
 
 import java.util.List;
@@ -23,6 +25,12 @@ public class DomainException extends NoStacktraceException {
 
     public static DomainException with(final Error anError) {
         return new DomainException(anError.message(), List.of(anError));
+    }
+
+    public static RuntimeException notFound(Class<? extends AggregateRoot<?>> aggClass, Identifier identifier) {
+        return DomainException.with(
+                "%s with id %s was not found".formatted(aggClass.getCanonicalName(), identifier.value())
+        );
     }
 
     public List<Error> getErrors() {

@@ -1,8 +1,6 @@
 package br.com.jkavdev.fullcycle.subscription.application.account.impl;
 
 import br.com.jkavdev.fullcycle.subscription.application.account.AddToGroup;
-import br.com.jkavdev.fullcycle.subscription.domain.AggregateRoot;
-import br.com.jkavdev.fullcycle.subscription.domain.Identifier;
 import br.com.jkavdev.fullcycle.subscription.domain.account.Account;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
@@ -42,22 +40,16 @@ public class DefaultAddToGroup extends AddToGroup {
         final var anSubscriptionId = new SubscriptionId(input.subscriptionId());
         final var aSubscription = subscriptionGateway.subscriptionOfId(anSubscriptionId)
                 .filter(it -> it.accountId().equals(anAccountId))
-                .orElseThrow(() -> notFound(Subscription.class, anSubscriptionId));
+                .orElseThrow(() -> DomainException.notFound(Subscription.class, anSubscriptionId));
 
         if (aSubscription.isTrail() || aSubscription.isActive()) {
             final var userId = accountGateway.accountOfId(anAccountId)
-                    .orElseThrow(() -> notFound(Account.class, anAccountId))
+                    .orElseThrow(() -> DomainException.notFound(Account.class, anAccountId))
                     .userId();
             identityProviderGateway.addUserToGroup(userId, new GroupId(input.groupId()));
         }
 
         return new StdOutput(anSubscriptionId);
-    }
-
-    private RuntimeException notFound(Class<? extends AggregateRoot<?>> aggClass, Identifier identifier) {
-        return DomainException.with(
-                "%s with id %s was not found".formatted(aggClass.getCanonicalName(), identifier.value())
-        );
     }
 
     record StdOutput(SubscriptionId subscriptionId) implements Output {
