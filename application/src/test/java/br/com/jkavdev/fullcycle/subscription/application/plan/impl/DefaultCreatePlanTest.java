@@ -30,6 +30,20 @@ class DefaultCreatePlanTest extends UnitTest {
     private ArgumentCaptor<Plan> captor;
 
     @Test
+    public void givenNullInput_whenCallsExecute_shouldReturnError() {
+        // given
+        final CreatePlanTestInput expectedInput = null;
+
+        final var expectedErrorMessage = "input to DefaultCreatePlan cannot be null";
+
+        // when
+        final var actualException = Assertions.assertThrows(IllegalArgumentException.class, () -> target.execute(expectedInput));
+
+        // then
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    @Test
     public void givenValidInput_whenCallsExecute_shouldCreatePlan() {
         // given
         final var expectedName = "qualquerNome";

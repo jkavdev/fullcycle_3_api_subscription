@@ -19,6 +19,9 @@ public class DefaultChangePlan extends ChangePlan {
 
     @Override
     public Output execute(final Input input) {
+        if (input == null) {
+            throw new IllegalArgumentException("input to DefaultChangePlan cannot be null");
+        }
         final var aPlan = planGateway.planOfId(new PlanId(input.planId()))
                 .orElseThrow(() -> DomainException.with("plan with id %s could not be found".formatted(input.planId())));
 

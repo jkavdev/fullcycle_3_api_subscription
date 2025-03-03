@@ -58,7 +58,7 @@ public class DefaultRemoveFromGroup extends RemoveFromGroup {
     }
 
     private static boolean isRemovableStatus(final Subscription aSubscription) {
-        return aSubscription.isCanceled() || aSubscription.isComplete();
+        return aSubscription.isCanceled() || aSubscription.isIncomplete();
     }
 
     record StdOutput(SubscriptionId subscriptionId) implements Output {

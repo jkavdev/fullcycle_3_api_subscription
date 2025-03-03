@@ -22,6 +22,20 @@ class DefaultCreateAccountTest extends UnitTest {
     AccountGateway accountGateway;
 
     @Test
+    public void givenNullInput_whenCallsExecute_shouldReturnError() {
+        // given
+        final CreateAccountTestInput expectedInput = null;
+
+        final var expectedErrorMessage = "input to DefaultCreateIdpUser cannot be null";
+
+        // when
+        final var actualException = Assertions.assertThrows(IllegalArgumentException.class, () -> target.execute(expectedInput));
+
+        // then
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    @Test
     public void givenValidInput_whenCallsExecute_shouldReturnAccountId() {
         // given
         final var expectedFirstname = "qualquerNome";

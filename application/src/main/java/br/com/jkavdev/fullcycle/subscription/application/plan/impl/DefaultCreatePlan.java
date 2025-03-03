@@ -18,6 +18,9 @@ public class DefaultCreatePlan extends CreatePlan {
 
     @Override
     public Output execute(final Input input) {
+        if (input == null) {
+            throw new IllegalArgumentException("input to DefaultCreatePlan cannot be null");
+        }
         final var aPlan = newPlanWith(input);
         planGateway.save(aPlan);
         return new StdOutput(aPlan.id());

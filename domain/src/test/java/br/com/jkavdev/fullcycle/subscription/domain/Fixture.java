@@ -29,6 +29,16 @@ public final class Fixture {
             );
         }
 
+        public static Account malu() {
+            return Account.newAccount(
+                    new AccountId("acc-malu"),
+                    new UserId("user-malu"),
+                    new Email("malu@email"),
+                    new Name("Malu", "Fucker"),
+                    Document.create("12345678924", Document.Cpf.TYPE)
+            );
+        }
+
     }
 
     public static final class Plans {

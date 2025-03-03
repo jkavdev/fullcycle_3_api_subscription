@@ -4,6 +4,7 @@ import br.com.jkavdev.fullcycle.subscription.application.subscription.CancelSubs
 import br.com.jkavdev.fullcycle.subscription.domain.Fixture;
 import br.com.jkavdev.fullcycle.subscription.domain.UnitTest;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
+import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.Plan;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionGateway;
@@ -30,6 +31,41 @@ class DefaultCancelSubscriptionTest extends UnitTest {
 
     @Captor
     ArgumentCaptor<Subscription> captor;
+
+    @Test
+    public void givenNullInput_whenCallsCancelSubscription_shouldReturnError() {
+        // given
+        final CancelSubscriptionTestInput expectedInput = null;
+
+        final var expectedErrorMessage = "input to DefaultCancelSubscription cannot be null";
+
+        // when
+        final var actualException = Assertions.assertThrows(IllegalArgumentException.class, () -> target.execute(expectedInput));
+
+        // then
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    @Test
+    public void givenInvalidSubscription_whenCallsCancelSubscription_shouldReturnNotFoundError() {
+        // given
+        final var expectedAccount = Fixture.Accounts.jhou();
+        final var expectedSubscriptionId = new SubscriptionId("sub-123");
+
+        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+                .thenReturn(Optional.empty());
+
+        final var expectedErrorMessage = "br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription with id sub-123 was not found";
+
+        // when
+        final var actualException = Assertions.assertThrows(DomainException.class,
+                () -> target.execute(
+                        new CancelSubscriptionTestInput(expectedAccount.id().value(), expectedSubscriptionId.value())
+                ));
+
+        // then
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
 
     @Test
     public void givenActiveSubscription_whenCallsCancelSubscription_shouldCancelIt() {

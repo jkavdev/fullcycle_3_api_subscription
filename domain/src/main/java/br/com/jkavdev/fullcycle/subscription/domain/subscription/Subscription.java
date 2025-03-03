@@ -237,7 +237,7 @@ public class Subscription extends AggregateRoot<SubscriptionId> {
         return status instanceof CanceledSubscriptionStatus;
     }
 
-    public boolean isComplete() {
+    public boolean isIncomplete() {
         return status instanceof IncompleteSubscriptionStatus;
     }
 

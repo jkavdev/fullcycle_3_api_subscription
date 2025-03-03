@@ -4,6 +4,7 @@ import br.com.jkavdev.fullcycle.subscription.application.plan.ChangePlan;
 import br.com.jkavdev.fullcycle.subscription.domain.Fixture;
 import br.com.jkavdev.fullcycle.subscription.domain.UnitTest;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.IdentityProviderGateway;
+import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
 import br.com.jkavdev.fullcycle.subscription.domain.money.Money;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.Plan;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanGateway;
@@ -30,6 +31,50 @@ class DefaultChangePlanTest extends UnitTest {
 
     @Captor
     private ArgumentCaptor<Plan> captor;
+
+    @Test
+    public void givenNullInput_whenCallsExecute_shouldReturnError() {
+        // given
+        final ChangePlanTestInput expectedInput = null;
+
+        final var expectedErrorMessage = "input to DefaultChangePlan cannot be null";
+
+        // when
+        final var actualException = Assertions.assertThrows(IllegalArgumentException.class, () -> target.execute(expectedInput));
+
+        // then
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    @Test
+    public void givenInvalidPlan_whenCallsExecute_shouldReturnError() {
+        // given
+        final var expectedName = "qualquerNome";
+        final var expectedDescription = "qualquerDescricao";
+        final var expectedPrice = 10.00;
+        final var expectedCurrency = "USD";
+        final var expectedActive = true;
+        final var expectedPlanId = 999L;
+
+        final var expectedErrorMessage = "plan with id 999 could not be found";
+
+        Mockito.when(planGateway.planOfId(ArgumentMatchers.any()))
+                .thenReturn(Optional.empty());
+
+        // when
+        final var actualException = Assertions.assertThrows(DomainException.class, () ->
+                target.execute(new ChangePlanTestInput(
+                        expectedPlanId,
+                        expectedName,
+                        expectedDescription,
+                        expectedPrice,
+                        expectedCurrency,
+                        expectedActive
+                )));
+
+        // then
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
 
     @Test
     public void givenValidInput_whenCallsExecute_shouldChangePlan() {
