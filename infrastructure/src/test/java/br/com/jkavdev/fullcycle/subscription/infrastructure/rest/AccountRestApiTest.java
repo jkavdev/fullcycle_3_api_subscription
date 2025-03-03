@@ -100,11 +100,10 @@ public class AccountRestApiTest {
         final var expectedEmail = "qualquerEmail@email";
         final var expectedDocumentNumber = "12345678910";
         final var expectedDocumentType = Document.Cpf.TYPE;
-        final var expectedAccountId = new AccountId("qualquerId");
         final var expectedPassword = "12345678910";
 
-        final var expectedErrorMessage = "asd";
-        final var expectedErrorProperty = "asd";
+        final var expectedErrorMessage = "must not be blank";
+        final var expectedErrorProperty = "firstname";
 
         final var json = """
                 {

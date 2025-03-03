@@ -1,7 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.domain.validation.handler;
 
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
-import br.com.jkavdev.fullcycle.subscription.domain.validation.Error;
+import br.com.jkavdev.fullcycle.subscription.domain.validation.ValidationErr;
 import br.com.jkavdev.fullcycle.subscription.domain.validation.ValidationHandler;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class ThrowsValidationHandler implements ValidationHandler {
 
     @Override
-    public ValidationHandler append(final Error anError) {
+    public ValidationHandler append(final ValidationErr anError) {
         throw DomainException.with(anError);
     }
 
@@ -23,12 +23,12 @@ public class ThrowsValidationHandler implements ValidationHandler {
         try {
             return aValidation.validate();
         } catch (final Exception ex) {
-            throw DomainException.with(new Error(ex.getMessage()));
+            throw DomainException.with(new ValidationErr(ex.getMessage()));
         }
     }
 
     @Override
-    public List<Error> getErrors() {
+    public List<ValidationErr> getErrors() {
         return List.of();
     }
 }

@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface ValidationHandler {
 
-    ValidationHandler append(Error anError);
+    ValidationHandler append(ValidationErr anError);
 
     ValidationHandler append(ValidationHandler anHandler);
 
     <T> T validate(Validation<T> aValidation);
 
-    List<Error> getErrors();
+    List<ValidationErr> getErrors();
 
-    default Error firstError() {
+    default ValidationErr firstError() {
         return hasError() ? getErrors().get(0) : null;
     }
 

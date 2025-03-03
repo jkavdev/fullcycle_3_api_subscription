@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration(proxyBeanMethods = false)
 @ComponentScan("br.com.jkavdev.fullcycle.subscription")
@@ -22,6 +23,11 @@ public class WebServerConfig {
         return event -> {
             refreshClientCredentials.refresh();
         };
+    }
+
+    @Bean
+    LocalValidatorFactoryBean localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
     }
 
 }
