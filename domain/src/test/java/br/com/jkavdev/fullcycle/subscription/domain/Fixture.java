@@ -4,6 +4,7 @@ import br.com.jkavdev.fullcycle.subscription.domain.account.Account;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.UserId;
 import br.com.jkavdev.fullcycle.subscription.domain.money.Money;
+import br.com.jkavdev.fullcycle.subscription.domain.person.Address;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Document;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Email;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Name;
@@ -20,22 +21,26 @@ public final class Fixture {
     public static final class Accounts {
 
         public static Account jhou() {
-            return Account.newAccount(
+            return Account.with(
                     new AccountId("acc-jhou"),
+                    1,
                     new UserId("user-jhou"),
                     new Email("jhou@email"),
                     new Name("Jhou", "Fucker"),
-                    Document.create("12345678910", Document.Cpf.TYPE)
+                    Document.create("12345678910", Document.Cpf.TYPE),
+                    new Address("123456", "123", "", "Brasil")
             );
         }
 
         public static Account malu() {
-            return Account.newAccount(
+            return Account.with(
                     new AccountId("acc-malu"),
+                    1,
                     new UserId("user-malu"),
                     new Email("malu@email"),
                     new Name("Malu", "Fucker"),
-                    Document.create("12345678924", Document.Cpf.TYPE)
+                    Document.create("12345678924", Document.Cpf.TYPE),
+                    new Address("1234561", "12311", "", "Brasil")
             );
         }
 

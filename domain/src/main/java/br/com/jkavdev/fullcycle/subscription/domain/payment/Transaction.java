@@ -3,7 +3,7 @@ package br.com.jkavdev.fullcycle.subscription.domain.payment;
 public record Transaction(String transactionId, String errorMessage) {
 
     public boolean isSuccess() {
-        return errorMessage != null;
+        return errorMessage == null;
     }
 
     public static Transaction success(final String transactionId) {
