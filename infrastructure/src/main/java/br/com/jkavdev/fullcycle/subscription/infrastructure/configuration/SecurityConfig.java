@@ -37,8 +37,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            // permitindo acesso para graphql
-                            .requestMatchers("/graphql", "/graphiql").permitAll()
+                            .requestMatchers("/accounts/sign-up").permitAll()
                             .anyRequest().hasRole(ROLE_ADMIN);
                 })
                 .oauth2ResourceServer(oauth -> {
