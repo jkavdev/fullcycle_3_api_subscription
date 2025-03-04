@@ -7,6 +7,7 @@ import br.com.jkavdev.fullcycle.subscription.application.plan.ChangePlan;
 import br.com.jkavdev.fullcycle.subscription.application.plan.CreatePlan;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanId;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.controllers.PlanRestController;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.ChangePlanResponse;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CreatePlanResponse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -37,6 +38,9 @@ public class PlanRestApiTest {
     @Captor
     private ArgumentCaptor<CreatePlan.Input> createPlanInputCaptor;
 
+    @Captor
+    private ArgumentCaptor<ChangePlan.Input> changePlanInputCaptor;
+
     @Test
     public void givenValidInput_whenCreateSuccessfully_shouldReturnPlanId() throws Exception {
         // given
@@ -50,7 +54,7 @@ public class PlanRestApiTest {
         Mockito.when(createPlan.execute(ArgumentMatchers.any(), ArgumentMatchers.any()))
                 .thenAnswer(call -> {
                     Presenter<CreatePlan.Output, CreatePlanResponse> p = call.getArgument(1);
-                    return p.apply(new CreatePlanTestOutput(expectedPlanId));
+                    return p.apply(new PlanTestOutput(expectedPlanId));
                 });
 
         final var json = """
@@ -89,6 +93,68 @@ public class PlanRestApiTest {
                 .execute(createPlanInputCaptor.capture(), ArgumentMatchers.any());
 
         final var actualRequest = createPlanInputCaptor.getValue();
+        Assertions.assertEquals(expectedName, actualRequest.name());
+        Assertions.assertEquals(expectedDescription, actualRequest.description());
+        Assertions.assertEquals(expectedPrice, actualRequest.price());
+        Assertions.assertEquals(expectedCurrency, actualRequest.currency());
+        Assertions.assertEquals(expectedActive, actualRequest.active());
+
+    }
+
+    @Test
+    public void givenValidInput_whenChangeSuccessfully_shouldReturnPlanId() throws Exception {
+        // given
+        final var expectedPlanId = new PlanId(999L);
+        final var expectedName = "qualquerNome";
+        final var expectedDescription = "qualquerDescricao";
+        final var expectedPrice = 10.00;
+        final var expectedCurrency = "BRL";
+        final var expectedActive = true;
+
+        Mockito.when(changePlan.execute(ArgumentMatchers.any(), ArgumentMatchers.any()))
+                .thenAnswer(call -> {
+                    Presenter<ChangePlan.Output, ChangePlanResponse> p = call.getArgument(1);
+                    return p.apply(new PlanTestOutput(expectedPlanId));
+                });
+
+        final var json = """
+                {
+                "plan_id": %s,
+                "name": "%s",
+                "description": "%s",
+                "price": "%s",
+                "currency": "%s",
+                "active": %s
+                }
+                """.formatted(
+                expectedPlanId.value(),
+                expectedName,
+                expectedDescription,
+                expectedPrice,
+                expectedCurrency,
+                expectedActive
+        );
+
+        // when
+        final var aRequest = MockMvcRequestBuilders.put("/plans/{id}", expectedPlanId.value())
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(json)
+                .with(ApiTest.admin());
+
+        final var aResponse = mvc.perform(aRequest);
+
+        // then
+        aResponse
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.plan_id").value(Matchers.equalTo(expectedPlanId.value()), Long.TYPE));
+
+        Mockito.verify(changePlan, Mockito.times(1))
+                .execute(changePlanInputCaptor.capture(), ArgumentMatchers.any());
+
+        final var actualRequest = changePlanInputCaptor.getValue();
+        Assertions.assertEquals(expectedPlanId.value(), actualRequest.planId());
         Assertions.assertEquals(expectedName, actualRequest.name());
         Assertions.assertEquals(expectedDescription, actualRequest.description());
         Assertions.assertEquals(expectedPrice, actualRequest.price());
@@ -146,7 +212,7 @@ public class PlanRestApiTest {
 
     }
 
-    record CreatePlanTestOutput(PlanId planId) implements CreatePlan.Output {
+    record PlanTestOutput(PlanId planId) implements CreatePlan.Output, ChangePlan.Output {
 
     }
 
