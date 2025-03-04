@@ -10,6 +10,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.time.Clock;
+
 @Configuration(proxyBeanMethods = false)
 @ComponentScan("br.com.jkavdev.fullcycle.subscription")
 @EnableScheduling
@@ -23,6 +25,11 @@ public class WebServerConfig {
         return event -> {
             refreshClientCredentials.refresh();
         };
+    }
+
+    @Bean
+    Clock clock() {
+        return Clock.systemUTC();
     }
 
     @Bean
