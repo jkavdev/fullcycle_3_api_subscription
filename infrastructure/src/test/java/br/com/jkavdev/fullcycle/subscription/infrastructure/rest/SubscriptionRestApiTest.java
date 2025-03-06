@@ -21,6 +21,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+/**
+ * 1 - tornar o id do idp (keycloak) o mesmo id do usuario interno da aplicacao (account id)
+ * 2 - descobrir o account id com base no subject do jwt
+ * 3 - colocar o account id dentro dos claims do jwt
+ */
 @ControllerTest(controllers = SubscriptionRestController.class)
 public class SubscriptionRestApiTest {
 
@@ -59,7 +64,7 @@ public class SubscriptionRestApiTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(json)
-                .with(ApiTest.admin());
+                .with(ApiTest.admin(expectedAccountId));
 
         final var aResponse = mvc.perform(aRequest);
 
