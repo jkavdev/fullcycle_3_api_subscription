@@ -3,7 +3,6 @@ package br.com.jkavdev.fullcycle.subscription.application.subscription.impl;
 import br.com.jkavdev.fullcycle.subscription.application.subscription.CancelSubscription;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException;
-import br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionCommand;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionId;
@@ -26,11 +25,12 @@ public class DefaultCancelSubscription extends CancelSubscription {
             throw new IllegalArgumentException("input to DefaultCancelSubscription cannot be null");
         }
 
-        final var subscriptionId = new SubscriptionId(input.subscriptionId());
-
-        final var aSubscription = subscriptionGateway.subscriptionOfId(subscriptionId)
-                .filter(it -> it.accountId().equals(new AccountId(input.accountId())))
-                .orElseThrow((() -> DomainException.notFound(Subscription.class, subscriptionId)));
+        final var anAccountId = new AccountId(input.accountId());
+        final var aSubscription = subscriptionGateway.latestSubscriptionOfAccount(anAccountId)
+                .filter(it -> it.accountId().equals(anAccountId))
+                .orElseThrow((() -> DomainException.with(
+                        "subscription for account %s was not found".formatted(input.accountId())
+                )));
 
         aSubscription.execute(new SubscriptionCommand.CancelSubscription());
         subscriptionGateway.save(aSubscription);

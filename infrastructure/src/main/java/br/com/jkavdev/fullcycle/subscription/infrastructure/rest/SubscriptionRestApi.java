@@ -2,6 +2,7 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.rest;
 
 import br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.principal.CodeflixUser;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.req.CreateSubscriptionRequest;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CancelSubscriptionResponse;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CreateSubscriptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,6 +35,23 @@ public interface SubscriptionRestApi {
     )
     ResponseEntity<CreateSubscriptionResponse> createSubscription(
             @RequestBody @Valid CreateSubscriptionRequest req,
+            @AuthenticationPrincipal final CodeflixUser principal
+    );
+
+    @PutMapping(
+            value = "active/cancel",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "cancel a subscription")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "canceled successfully"),
+                    @ApiResponse(responseCode = "422", description = "a validation error was observed"), // TODO: acho que esse erro nao eh possivel aqui
+                    @ApiResponse(responseCode = "500", description = "an unpredictable error was observed"),
+            }
+    )
+    ResponseEntity<CancelSubscriptionResponse> cancelSubscription(
             @AuthenticationPrincipal final CodeflixUser principal
     );
 

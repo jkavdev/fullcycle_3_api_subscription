@@ -3,9 +3,12 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.rest;
 import br.com.jkavdev.fullcycle.subscription.ApiTest;
 import br.com.jkavdev.fullcycle.subscription.ControllerTest;
 import br.com.jkavdev.fullcycle.subscription.application.Presenter;
+import br.com.jkavdev.fullcycle.subscription.application.subscription.CancelSubscription;
 import br.com.jkavdev.fullcycle.subscription.application.subscription.CreateSubscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionId;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.status.SubscriptionStatus;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.controllers.SubscriptionRestController;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CancelSubscriptionResponse;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CreateSubscriptionResponse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -35,8 +38,14 @@ public class SubscriptionRestApiTest {
     @MockBean
     private CreateSubscription createSubscription;
 
+    @MockBean
+    private CancelSubscription cancelSubscription;
+
     @Captor
     private ArgumentCaptor<CreateSubscription.Input> createSubscriptionInputCaptor;
+
+    @Captor
+    private ArgumentCaptor<CancelSubscription.Input> cancelSubscriptionInputCaptor;
 
     @Test
     public void givenValidInput_whenCreateSuccessfully_shouldReturnSubscriptionId() throws Exception {
@@ -84,7 +93,51 @@ public class SubscriptionRestApiTest {
 
     }
 
+    @Test
+    public void givenValidAccountId_whenCanceledSuccessfully_shouldReturnNewSubscriptionStatus() throws Exception {
+        // given
+        final var expectedPlanId = 132L;
+        final var expectedAccountId = "132";
+        final var expectedSubscriptionId = new SubscriptionId("sub-123");
+        final var expectedSubscriptionStatus = SubscriptionStatus.CANCELED;
+
+        Mockito.when(cancelSubscription.execute(ArgumentMatchers.any(), ArgumentMatchers.any()))
+                .thenAnswer(call -> {
+                    Presenter<CancelSubscription.Output, CancelSubscriptionResponse> p = call.getArgument(1);
+                    return p.apply(new CanceledSubscriptionTestOutput(expectedSubscriptionStatus, expectedSubscriptionId));
+                });
+
+        // when
+        final var aRequest = MockMvcRequestBuilders.put("/subscriptions/active/cancel")
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .with(ApiTest.admin(expectedAccountId));
+
+        final var aResponse = mvc.perform(aRequest);
+
+        // then
+        aResponse
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subscription_status").value(Matchers.equalTo(expectedSubscriptionStatus)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subscription_id").value(Matchers.equalTo(expectedSubscriptionId.value())));
+
+        Mockito.verify(cancelSubscription, Mockito.times(1))
+                .execute(cancelSubscriptionInputCaptor.capture(), ArgumentMatchers.any());
+
+        final var actualRequest = cancelSubscriptionInputCaptor.getValue();
+        Assertions.assertEquals(expectedAccountId, actualRequest.accountId());
+
+    }
+
     record CreateSubscriptionTestOutput(SubscriptionId subscriptionId) implements CreateSubscription.Output {
+
+    }
+
+    record CanceledSubscriptionTestOutput(
+            String subscriptionStatus,
+            SubscriptionId subscriptionId
+    ) implements CancelSubscription.Output {
 
     }
 

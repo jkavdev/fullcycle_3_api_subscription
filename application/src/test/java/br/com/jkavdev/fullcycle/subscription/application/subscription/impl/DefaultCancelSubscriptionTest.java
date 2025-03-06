@@ -52,10 +52,10 @@ class DefaultCancelSubscriptionTest extends UnitTest {
         final var expectedAccount = Fixture.Accounts.jhou();
         final var expectedSubscriptionId = new SubscriptionId("sub-123");
 
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(expectedAccount.id()))
                 .thenReturn(Optional.empty());
 
-        final var expectedErrorMessage = "br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription with id sub-123 was not found";
+        final var expectedErrorMessage = "subscription for account acc-jhou was not found";
 
         // when
         final var actualException = Assertions.assertThrows(DomainException.class,
@@ -82,7 +82,7 @@ class DefaultCancelSubscriptionTest extends UnitTest {
         final var expectedSubscriptionId = expectedSubscription.id();
         final var expectedSubscriptionStatus = CanceledSubscriptionStatus.CANCELED;
 
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(expectedAccount.id()))
                 .thenReturn(Optional.of(expectedSubscription));
         Mockito.when(subscriptionGateway.save(ArgumentMatchers.any()))
                 .thenAnswer(AdditionalAnswers.returnsFirstArg());
