@@ -118,3 +118,23 @@ gradle wrapper
 # TODOs
 
 * implementar outros testes unitarios mencionados na aula 0704
+
+* quando informado um usuario sem claims no token, e nao eh encontrada as claims pra o usuario pela aplicacao
+  * deveria retornar um forbidden, mas ta retorando um 401 Unauthorized
+  
+* exportar configuracoes de usuario do keycloak, que tenha o account id no claims
+  * Client scopes -> Client scope details -> Mapper details
+
+* rever tratamento de erro, pois quando eh lancado um domain exception num request, pela api
+
+o sistema ta retornando um erro 500
+````json
+jakarta.servlet.ServletException: Request processing failed: br.com.jkavdev.fullcycle.subscription.domain.exceptions.DomainException: br.com.jkavdev.fullcycle.subscription.domain.plan.Plan with id 123 was not found
+
+{
+    "timestamp": "2025-03-06T11:18:49.657+00:00",
+        "status": 500,
+        "error": "Internal Server Error",
+        "path": "/api/subscriptions"
+}
+````

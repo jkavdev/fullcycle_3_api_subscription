@@ -1,4 +1,4 @@
-package br.com.jkavdev.fullcycle.subscription.infrastructure.authentication;
+package br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.clientcredentials;
 
 public interface AuthenticationGateway {
 

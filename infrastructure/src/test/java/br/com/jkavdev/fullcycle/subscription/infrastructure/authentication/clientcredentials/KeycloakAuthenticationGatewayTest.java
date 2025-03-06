@@ -1,4 +1,4 @@
-package br.com.jkavdev.fullcycle.subscription.infrastructure.authentication;
+package br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.clientcredentials;
 
 import br.com.jkavdev.fullcycle.subscription.AbstractRestClientTest;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.json.Json;

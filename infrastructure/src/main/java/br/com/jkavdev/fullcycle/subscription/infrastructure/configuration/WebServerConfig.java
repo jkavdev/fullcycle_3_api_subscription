@@ -1,6 +1,6 @@
 package br.com.jkavdev.fullcycle.subscription.infrastructure.configuration;
 
-import br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.RefreshClientCredentials;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.clientcredentials.RefreshClientCredentials;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

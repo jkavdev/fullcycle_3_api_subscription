@@ -1,4 +1,4 @@
-package br.com.jkavdev.fullcycle.subscription.infrastructure.authentication;
+package br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.clientcredentials;
 
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.InternalErrorException;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.configuration.annotations.Keycloak;
