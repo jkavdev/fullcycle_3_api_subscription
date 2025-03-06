@@ -8,6 +8,7 @@ public interface ApiTest {
 
     static JwtRequestPostProcessor admin() {
         return SecurityMockMvcRequestPostProcessors.jwt()
+                .jwt(builder -> builder.claim("accountId", "123"))
                 .authorities(new SimpleGrantedAuthority("ROLE_SUBSCRIPTION_ADMIN"));
     }
 

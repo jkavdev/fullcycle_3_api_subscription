@@ -8,7 +8,7 @@ public abstract class CreateSubscription extends UseCase<CreateSubscription.Inpu
     public interface Input {
         String accountId();
 
-        Long planIn();
+        Long planId();
     }
 
     public interface Output {

@@ -38,7 +38,7 @@ public class DefaultCreateSubscription extends CreateSubscription {
             throw new IllegalArgumentException("input to DefaultCreateSubscription cannot be null");
         }
         final var accountId = new AccountId(input.accountId());
-        final var planId = new PlanId(input.planIn());
+        final var planId = new PlanId(input.planId());
 
         validateActiveSubscription(input, accountId);
 

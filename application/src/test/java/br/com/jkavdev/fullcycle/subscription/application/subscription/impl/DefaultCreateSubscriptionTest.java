@@ -228,7 +228,7 @@ class DefaultCreateSubscriptionTest extends UnitTest {
 
     record CreateSubscriptionTestInput(
             String accountId,
-            Long planIn
+            Long planId
     ) implements CreateSubscription.Input {
     }
 
