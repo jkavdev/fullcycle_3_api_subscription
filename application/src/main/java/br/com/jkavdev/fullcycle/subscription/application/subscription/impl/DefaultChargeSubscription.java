@@ -19,10 +19,7 @@ import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionGat
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionId;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.IdUtils;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -68,7 +65,7 @@ public class DefaultChargeSubscription extends ChargeSubscription {
         final var now = clock.instant();
 
         if (aSubscription.dueDate().isAfter(LocalDate.ofInstant(now, ZoneId.systemDefault()))) {
-            return new StdOuput(
+            return new StdOutput(
                     aSubscription.id(),
                     aSubscription.status().value(),
                     aSubscription.dueDate(),
@@ -98,7 +95,7 @@ public class DefaultChargeSubscription extends ChargeSubscription {
 
         subscriptionGateway.save(aSubscription);
 
-        return new StdOuput(
+        return new StdOutput(
                 aSubscription.id(),
                 aSubscription.status().value(),
                 aSubscription.dueDate(),
@@ -107,7 +104,7 @@ public class DefaultChargeSubscription extends ChargeSubscription {
     }
 
     private boolean hasTolerableDays(final LocalDate dueDate, final Instant now) {
-        return ChronoUnit.DAYS.between(dueDate, LocalDate.ofInstant(now, ZoneId.systemDefault())) <= MAX_INCOMPLETE_DAYS;
+        return ChronoUnit.DAYS.between(dueDate, LocalDate.ofInstant(now, ZoneOffset.UTC)) <= MAX_INCOMPLETE_DAYS;
     }
 
     private Payment newPaymentWith(
@@ -129,7 +126,7 @@ public class DefaultChargeSubscription extends ChargeSubscription {
         );
     }
 
-    public record StdOuput(
+    public record StdOutput(
             SubscriptionId subscriptionId,
             String subscriptionStatus,
             LocalDate subscriptionDueDate,
@@ -137,5 +134,4 @@ public class DefaultChargeSubscription extends ChargeSubscription {
     ) implements ChargeSubscription.Output {
 
     }
-
 }
