@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
         }
 )
 @Tag("integrationTests")
-public abstract class AbstractRestClientTest {
+public abstract class AbstractRestClientTest extends AbstractTest {
 
     @Autowired
     private ObjectMapper objectMapper;
