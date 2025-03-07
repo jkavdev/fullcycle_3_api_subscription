@@ -60,15 +60,16 @@ public class DefaultChargeSubscription extends ChargeSubscription {
             throw new IllegalArgumentException("input to DefaultChargeSubscription cannot be null");
         }
         final var anAccountId = new AccountId(input.accountId());
-        final var anSubscriptionId = new SubscriptionId(input.subscriptionId());
-        final var aSubscription = subscriptionGateway.subscriptionOfId(anSubscriptionId)
+        final var aSubscription = subscriptionGateway.latestSubscriptionOfAccount(anAccountId)
                 .filter(it -> it.accountId().equals(anAccountId))
-                .orElseThrow(() -> DomainException.notFound(Subscription.class, anSubscriptionId));
+                .orElseThrow(() -> DomainException.with(
+                        "subscription for account %s was not found".formatted(input.accountId())
+                ));
         final var now = clock.instant();
 
         if (aSubscription.dueDate().isAfter(LocalDate.ofInstant(now, ZoneId.systemDefault()))) {
             return new StdOuput(
-                    anSubscriptionId,
+                    aSubscription.id(),
                     aSubscription.status().value(),
                     aSubscription.dueDate(),
                     null
@@ -98,7 +99,7 @@ public class DefaultChargeSubscription extends ChargeSubscription {
         subscriptionGateway.save(aSubscription);
 
         return new StdOuput(
-                anSubscriptionId,
+                aSubscription.id(),
                 aSubscription.status().value(),
                 aSubscription.dueDate(),
                 actualTransaction

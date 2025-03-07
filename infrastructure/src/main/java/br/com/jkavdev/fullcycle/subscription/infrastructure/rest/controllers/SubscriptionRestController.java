@@ -1,11 +1,14 @@
 package br.com.jkavdev.fullcycle.subscription.infrastructure.rest.controllers;
 
 import br.com.jkavdev.fullcycle.subscription.application.subscription.CancelSubscription;
+import br.com.jkavdev.fullcycle.subscription.application.subscription.ChargeSubscription;
 import br.com.jkavdev.fullcycle.subscription.application.subscription.CreateSubscription;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.principal.CodeflixUser;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.SubscriptionRestApi;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.req.ChargeSubscriptionRequest;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.req.CreateSubscriptionRequest;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CancelSubscriptionResponse;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.ChargeSubscriptionResponse;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CreateSubscriptionResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +23,16 @@ public class SubscriptionRestController implements SubscriptionRestApi {
 
     private final CancelSubscription cancelSubscription;
 
+    private final ChargeSubscription chargeSubscription;
+
     public SubscriptionRestController(
             final CreateSubscription createSubscription,
-            final CancelSubscription cancelSubscription
+            final CancelSubscription cancelSubscription,
+            final ChargeSubscription chargeSubscription
     ) {
         this.createSubscription = Objects.requireNonNull(createSubscription);
         this.cancelSubscription = Objects.requireNonNull(cancelSubscription);
+        this.chargeSubscription = Objects.requireNonNull(chargeSubscription);
     }
 
     @Override
@@ -52,6 +59,27 @@ public class SubscriptionRestController implements SubscriptionRestApi {
         final var res = cancelSubscription.execute(input, CancelSubscriptionResponse::new);
         return ResponseEntity
                 .ok(res);
+    }
+
+    @Override
+    public ResponseEntity<ChargeSubscriptionResponse> chargeActiveSubscription(
+            final ChargeSubscriptionRequest req,
+            final CodeflixUser principal
+    ) {
+        record ChargeSubscriptionInput(
+                String accountId,
+                String paymentType,
+                String creditCardToken
+        ) implements ChargeSubscription.Input {
+
+        }
+        final var res = chargeSubscription.execute(
+                new ChargeSubscriptionInput(
+                        principal.accountId(), req.paymentType(), req.creditCardToken()
+                ),
+                ChargeSubscriptionResponse::new
+        );
+        return ResponseEntity.ok(res);
     }
 
 }

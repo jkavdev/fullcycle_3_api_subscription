@@ -11,8 +11,6 @@ public abstract class ChargeSubscription extends UseCase<ChargeSubscription.Inpu
     public interface Input {
         String accountId();
 
-        String subscriptionId();
-
         String paymentType();
 
         String creditCardToken();

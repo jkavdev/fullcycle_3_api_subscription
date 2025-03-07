@@ -65,7 +65,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
 
         Mockito.when(clock.instant())
                 .thenReturn(InstantUtils.now());
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedSubscription));
 
         // when
@@ -85,7 +85,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
         Assertions.assertNull(actualOutput.paymentTransaction());
 
         Mockito.verify(subscriptionGateway, Mockito.times(1))
-                .subscriptionOfId(expectedSubscription.id());
+                .latestSubscriptionOfAccount(expectedAccount.id());
         Mockito.verify(planGateway, Mockito.never())
                 .planOfId(ArgumentMatchers.any());
         Mockito.verify(accountGateway, Mockito.never())
@@ -113,7 +113,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
 
         Mockito.when(clock.instant())
                 .thenReturn(InstantUtils.now());
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedSubscription));
         Mockito.when(planGateway.planOfId(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedPlan));
@@ -139,7 +139,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
         Assertions.assertEquals(expecteTransaction, actualOutput.paymentTransaction());
 
         Mockito.verify(subscriptionGateway, Mockito.times(1))
-                .subscriptionOfId(expectedSubscription.id());
+                .latestSubscriptionOfAccount(expectedAccount.id());
         Mockito.verify(planGateway, Mockito.times(1))
                 .planOfId(expectedPlan.id());
         Mockito.verify(accountGateway, Mockito.times(1))
@@ -172,7 +172,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
 
         Mockito.when(clock.instant())
                 .thenReturn(InstantUtils.now());
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedSubscription));
         Mockito.when(planGateway.planOfId(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedPlan));
@@ -198,7 +198,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
         Assertions.assertEquals(expecteTransaction, actualOutput.paymentTransaction());
 
         Mockito.verify(subscriptionGateway, Mockito.times(1))
-                .subscriptionOfId(expectedSubscription.id());
+                .latestSubscriptionOfAccount(expectedAccount.id());
         Mockito.verify(planGateway, Mockito.times(1))
                 .planOfId(expectedPlan.id());
         Mockito.verify(accountGateway, Mockito.times(1))
@@ -231,7 +231,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
 
         Mockito.when(clock.instant())
                 .thenReturn(InstantUtils.now());
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedSubscription));
         Mockito.when(planGateway.planOfId(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedPlan));
@@ -257,7 +257,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
         Assertions.assertEquals(expecteTransaction, actualOutput.paymentTransaction());
 
         Mockito.verify(subscriptionGateway, Mockito.times(1))
-                .subscriptionOfId(expectedSubscription.id());
+                .latestSubscriptionOfAccount(expectedAccount.id());
         Mockito.verify(planGateway, Mockito.times(1))
                 .planOfId(expectedPlan.id());
         Mockito.verify(accountGateway, Mockito.times(1))
@@ -290,7 +290,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
 
         Mockito.when(clock.instant())
                 .thenReturn(InstantUtils.now());
-        Mockito.when(subscriptionGateway.subscriptionOfId(ArgumentMatchers.any()))
+        Mockito.when(subscriptionGateway.latestSubscriptionOfAccount(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedSubscription));
         Mockito.when(planGateway.planOfId(ArgumentMatchers.any()))
                 .thenReturn(Optional.of(expectedPlan));
@@ -316,7 +316,7 @@ class DefaultChargeSubscriptionTest extends UnitTest {
         Assertions.assertEquals(expecteTransaction, actualOutput.paymentTransaction());
 
         Mockito.verify(subscriptionGateway, Mockito.times(1))
-                .subscriptionOfId(expectedSubscription.id());
+                .latestSubscriptionOfAccount(expectedAccount.id());
         Mockito.verify(planGateway, Mockito.times(1))
                 .planOfId(expectedPlan.id());
         Mockito.verify(accountGateway, Mockito.times(1))

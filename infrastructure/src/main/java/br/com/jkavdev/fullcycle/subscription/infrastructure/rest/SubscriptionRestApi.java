@@ -1,8 +1,10 @@
 package br.com.jkavdev.fullcycle.subscription.infrastructure.rest;
 
 import br.com.jkavdev.fullcycle.subscription.infrastructure.authentication.principal.CodeflixUser;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.req.ChargeSubscriptionRequest;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.req.CreateSubscriptionRequest;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CancelSubscriptionResponse;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.ChargeSubscriptionResponse;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.res.CreateSubscriptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,7 +45,7 @@ public interface SubscriptionRestApi {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "cancel a subscription")
+    @Operation(summary = "cancel an active subscription")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "canceled successfully"),
@@ -52,6 +54,24 @@ public interface SubscriptionRestApi {
             }
     )
     ResponseEntity<CancelSubscriptionResponse> cancelSubscription(
+            @AuthenticationPrincipal final CodeflixUser principal
+    );
+
+    @PutMapping(
+            value = "active/charge",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "charge an active subscription")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "charged successfully"),
+                    @ApiResponse(responseCode = "422", description = "a validation error was observed"), // TODO: acho que esse erro nao eh possivel aqui
+                    @ApiResponse(responseCode = "500", description = "an unpredictable error was observed"),
+            }
+    )
+    ResponseEntity<ChargeSubscriptionResponse> chargeActiveSubscription(
+            @RequestBody @Valid ChargeSubscriptionRequest req,
             @AuthenticationPrincipal final CodeflixUser principal
     );
 

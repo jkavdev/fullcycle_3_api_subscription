@@ -35,10 +35,10 @@ public class DefaultCancelSubscription extends CancelSubscription {
         aSubscription.execute(new SubscriptionCommand.CancelSubscription());
         subscriptionGateway.save(aSubscription);
 
-        return new StdOuput(aSubscription.status().value(), aSubscription.id());
+        return new StdOutput(aSubscription.status().value(), aSubscription.id());
     }
 
-    public record StdOuput(
+    public record StdOutput(
             String subscriptionStatus,
             SubscriptionId subscriptionId
     ) implements Output {
