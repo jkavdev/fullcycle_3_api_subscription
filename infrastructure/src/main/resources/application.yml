@@ -41,7 +41,7 @@ spring:
       pool-name: master
     jpa:
       open-in-view: false
-      show-sql: false
+      show-sql: true
       hibernate:
         ddl-auto: none
       properties:

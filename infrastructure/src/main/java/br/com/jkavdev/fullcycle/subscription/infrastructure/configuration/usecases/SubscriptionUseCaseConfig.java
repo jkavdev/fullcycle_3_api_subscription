@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Clock;
 
 @Configuration(proxyBeanMethods = false)
-public class SubscriptionUseConfig {
+public class SubscriptionUseCaseConfig {
 
     @Bean
     CreateSubscription createSubscription(

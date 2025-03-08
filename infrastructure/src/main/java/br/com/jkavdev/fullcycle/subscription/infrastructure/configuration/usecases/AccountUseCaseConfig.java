@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-public class AccountUseConfig {
+public class AccountUseCaseConfig {
 
     @Bean
     CreateAccount createAccount(final AccountGateway accountGateway) {

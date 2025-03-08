@@ -8,7 +8,7 @@ mysql:
   username: ${DATABASE_MYSQL_USERNAME}
   password: ${DATABASE_MYSQL_PASSWORD}
   schema: subscription
-  url: ${DATABASE_MYSQL_URL:localhost}
+  url: ${DATABASE_MYSQL_URL}
 
 rest-client:
   base-url: ${BASE_URL}

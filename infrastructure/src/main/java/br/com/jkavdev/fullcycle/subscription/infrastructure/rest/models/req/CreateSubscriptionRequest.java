@@ -1,8 +1,8 @@
 package br.com.jkavdev.fullcycle.subscription.infrastructure.rest.models.req;
 
-import org.springframework.lang.NonNull;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateSubscriptionRequest(
-        @NonNull Long planId
+        @NotNull Long planId
 ) {
 }

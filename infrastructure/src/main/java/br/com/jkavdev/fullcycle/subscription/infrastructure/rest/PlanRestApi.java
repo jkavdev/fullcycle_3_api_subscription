@@ -36,7 +36,7 @@ public interface PlanRestApi {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "Create a new plan")
+    @Operation(summary = "Change a plan information")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "changed successfully"),
@@ -48,5 +48,4 @@ public interface PlanRestApi {
             @PathVariable Long planId,
             @RequestBody @Valid ChangePlanRequest req
     );
-
 }

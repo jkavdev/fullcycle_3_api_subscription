@@ -6,7 +6,7 @@ import br.com.jkavdev.fullcycle.subscription.domain.AssertionConcern;
 public record CreateSubscriptionResponse(String subscriptionId) implements AssertionConcern {
 
     public CreateSubscriptionResponse {
-        this.assertArgumentNotNull(subscriptionId, "CreateSubscriptionResponse 'subscriptionId' should not be null");
+        this.assertArgumentNotEmpty(subscriptionId, "CreateSubscriptionResponse 'subscriptionId' should not be empty");
     }
 
     public CreateSubscriptionResponse(final CreateSubscription.Output output) {

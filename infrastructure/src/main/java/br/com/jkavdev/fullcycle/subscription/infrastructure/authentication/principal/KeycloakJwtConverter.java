@@ -22,7 +22,7 @@ public class KeycloakJwtConverter implements Converter<Jwt, AbstractAuthenticati
 
     public KeycloakJwtConverter(final AccountGateway accountGateway) {
         this.accountGateway = Objects.requireNonNull(accountGateway);
-        authoritiesConverter = new KeycloakAuthoritiesConverter();
+        this.authoritiesConverter = new KeycloakAuthoritiesConverter();
     }
 
     @Override
