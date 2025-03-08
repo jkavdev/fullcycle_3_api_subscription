@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // precisa desse script para que nao ocorra erro ao realizar a migration do flyway
+        classpath 'org.flywaydb:flyway-mysql:9.12.0'
+    }
+}
+
 plugins {
     id 'java-conventions'
     id 'jacoco-report-aggregation'
@@ -6,6 +16,7 @@ plugins {
     // plugins do spring e spring boot
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.flywaydb.flyway' version '9.12.0'
 }
 
 group 'br.com.jkavdev.fullcycle.subscription.infrastructure'
@@ -46,6 +57,8 @@ dependencies {
     testImplementation(project(path: ':domain', configuration: 'testClasses'))
 
     testImplementation 'com.h2database:h2'
+    testImplementation 'org.flywaydb:flyway-core'
+    testImplementation 'org.flywaydb:flyway-mysql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
@@ -61,6 +74,13 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:2024.0.0"
     }
+}
+
+flyway {
+    url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3306/adm_videos'
+    user = System.getenv('FLYWAY_USER') ?: 'root'
+    password = System.getenv('FLYWAY_PASS') ?: '123456'
+    cleanDisabled = false
 }
 
 testCodeCoverageReport {

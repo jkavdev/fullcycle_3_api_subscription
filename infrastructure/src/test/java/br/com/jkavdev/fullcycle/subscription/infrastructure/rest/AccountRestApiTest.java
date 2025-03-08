@@ -66,7 +66,7 @@ public class AccountRestApiTest {
         );
 
         // when
-        final var aRequest = MockMvcRequestBuilders.post("/accounts/sign-up")
+        final var aRequest = MockMvcRequestBuilders.post("/sql/accounts/sign-up")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(json);
@@ -76,7 +76,7 @@ public class AccountRestApiTest {
         // then
         aResponse
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.header().string("Location", "/accounts/" + expectedAccountId.value()))
+                .andExpect(MockMvcResultMatchers.header().string("Location", "/sql/accounts/" + expectedAccountId.value()))
                 .andExpect(MockMvcResultMatchers.header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.account_id").value(Matchers.equalTo(expectedAccountId.value())));
 
@@ -124,7 +124,7 @@ public class AccountRestApiTest {
         );
 
         // when
-        final var aRequest = MockMvcRequestBuilders.post("/accounts/sign-up")
+        final var aRequest = MockMvcRequestBuilders.post("/sql/accounts/sign-up")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(json);
