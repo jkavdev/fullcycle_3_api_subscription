@@ -20,8 +20,16 @@ public enum Json {
         return INSTANCE.mapper.copy();
     }
 
+    public static byte[] writeValueAsBytes(final Object object) {
+        return invoke(() -> INSTANCE.mapper.writeValueAsBytes(object));
+    }
+
     public static String writeValueAsString(final Object object) {
         return invoke(() -> INSTANCE.mapper.writeValueAsString(object));
+    }
+
+    public static <T> T readValue(final byte[] json, final Class<T> clazz) {
+        return invoke(() -> INSTANCE.mapper.readValue(json, clazz));
     }
 
     public static <T> T readValue(final String json, final Class<T> clazz) {

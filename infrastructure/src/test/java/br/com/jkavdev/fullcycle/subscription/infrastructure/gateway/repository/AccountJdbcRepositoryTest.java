@@ -2,6 +2,7 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository;
 
 import br.com.jkavdev.fullcycle.subscription.AbstractRepositoryTest;
 import br.com.jkavdev.fullcycle.subscription.domain.account.Account;
+import br.com.jkavdev.fullcycle.subscription.domain.account.AccountEvent;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.UserId;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Address;
@@ -62,16 +63,13 @@ class AccountJdbcRepositoryTest extends AbstractRepositoryTest {
         final var expectedName = new Name("Jhou", "JK");
         final var expectedEmail = new Email("jhou@gmail.com");
         final var expectedDocument = Document.create("12312312332", "cpf");
-        final var expectedAddress = new Address("12332123", "1", "Casa 1", "BR");
 
-        final var anAccount = Account.with(
+        final var anAccount = Account.newAccount(
                 expectedId,
-                0,
                 expectedUserId,
                 expectedEmail,
                 expectedName,
-                expectedDocument,
-                expectedAddress
+                expectedDocument
         );
 
         // when
@@ -82,7 +80,7 @@ class AccountJdbcRepositoryTest extends AbstractRepositoryTest {
         Assertions.assertEquals(expectedEmail, actualResponse.email());
         Assertions.assertEquals(expectedName, actualResponse.name());
         Assertions.assertEquals(expectedDocument, actualResponse.document());
-        Assertions.assertEquals(expectedAddress, actualResponse.billingAddress());
+        Assertions.assertNull(actualResponse.billingAddress());
 
         // then
         Assertions.assertEquals(1, countAccounts());
@@ -94,7 +92,16 @@ class AccountJdbcRepositoryTest extends AbstractRepositoryTest {
         Assertions.assertEquals(expectedEmail, actualAccount.email());
         Assertions.assertEquals(expectedName, actualAccount.name());
         Assertions.assertEquals(expectedDocument, actualAccount.document());
-        Assertions.assertEquals(expectedAddress, actualAccount.billingAddress());
+        Assertions.assertNull(actualAccount.billingAddress());
+
+        final var actualEvents = eventRepository().allEventsOfAggregate(expectedId.value(), AccountEvent.TYPE);
+        Assertions.assertEquals(1, actualEvents.size());
+
+        final var actualEvent = (AccountEvent.AccountCreated) actualEvents.getFirst();
+        Assertions.assertEquals(expectedId.value(), actualEvent.accountId());
+        Assertions.assertEquals(expectedEmail.value(), actualEvent.email());
+        Assertions.assertEquals(expectedName.fullname(), actualEvent.fullname());
+        Assertions.assertNotNull(actualEvent.occurredOn());
 
     }
 
