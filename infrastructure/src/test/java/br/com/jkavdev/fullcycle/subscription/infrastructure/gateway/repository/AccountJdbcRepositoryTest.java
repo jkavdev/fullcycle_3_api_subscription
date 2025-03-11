@@ -153,4 +153,30 @@ class AccountJdbcRepositoryTest extends AbstractRepositoryTest {
 
     }
 
+    @Test
+    @Sql({"classpath:/sql/accounts/seed-account-jhou.sql"})
+    public void givenJhouPersisted_whenQueryByUserIdSuccessfully_shouldReturnAccount() {
+        // given
+        Assertions.assertEquals(1, countAccounts());
+
+        final var expectedId = new AccountId("033c7d9eb3cc4eb7840b942fa2194cab");
+        final var expectedVersion = 1;
+        final var expectedUserId = new UserId("a8b3cf5a-5f81-4822-9ee8-89e768f6095c");
+        final var expectedName = new Name("Jhou", "JK");
+        final var expectedEmail = new Email("jhou@gmail.com");
+        final var expectedDocument = Document.create("12312312332", "cpf");
+
+        // when
+        final var actualResponse = accountRepository().accountOfUserId(expectedUserId).orElseThrow();
+
+        // then
+        Assertions.assertEquals(expectedId, actualResponse.id());
+        Assertions.assertEquals(expectedVersion, actualResponse.version());
+        Assertions.assertEquals(expectedUserId, actualResponse.userId());
+        Assertions.assertEquals(expectedEmail, actualResponse.email());
+        Assertions.assertEquals(expectedName, actualResponse.name());
+        Assertions.assertEquals(expectedDocument, actualResponse.document());
+
+    }
+
 }
