@@ -2,10 +2,9 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository;
 
 import br.com.jkavdev.fullcycle.subscription.domain.DomainEvent;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.InstantUtils;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.json.Json;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -14,10 +13,10 @@ import java.util.*;
 @Repository
 public class EventJdbcRepository {
 
-    private final JdbcClient jdbcClient;
+    private final DatabaseClient database;
 
-    public EventJdbcRepository(final JdbcClient jdbcClient) {
-        this.jdbcClient = Objects.requireNonNull(jdbcClient);
+    public EventJdbcRepository(final DatabaseClient database) {
+        this.database = Objects.requireNonNull(database);
     }
 
     public List<DomainEvent> allEventsOfAggregate(final String aggregateId, final String aggregateType) {
@@ -33,36 +32,18 @@ public class EventJdbcRepository {
                 FROM events
                 WHERE aggregate_id = :aggregateId AND aggregate_type = :aggregateType
                 """;
-        final var params = Map.of(
+        final var params = Map.<String, Object>of(
                 "aggregateId", aggregateId,
                 "aggregateType", aggregateType
         );
-        return jdbcClient.sql(sql)
-                .params(params)
-                .query(eventMapper())
+        return database.query(
+                        sql,
+                        params,
+                        eventMapper()
+                )
                 .stream()
                 .map(this::toDomainEvent)
                 .toList();
-    }
-
-    private DomainEvent toDomainEvent(final Event event) {
-        try {
-            return (DomainEvent) Json.readValue(event.eventData(), Class.forName(event.eventType()));
-        } catch (ClassNotFoundException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    private RowMapper<Event> eventMapper() {
-        return (rs, rowNumber) -> new Event(
-                rs.getLong("event_id"),
-                rs.getBoolean("processed"),
-                rs.getString("aggregate_id"),
-                rs.getString("aggregate_type"),
-                rs.getString("event_type"),
-                rs.getObject("event_date", Instant.class),
-                rs.getBytes("event_data")
-        );
     }
 
     public void saveAll(final Collection<DomainEvent> events) {
@@ -104,12 +85,28 @@ public class EventJdbcRepository {
         params.put("eventDate", event.eventDate());
         params.put("eventData", event.eventData());
 
-        try {
-            jdbcClient.sql(sql).params(params).update();
-        } catch (DataIntegrityViolationException exception) {
-            throw exception;
-        }
+        database.update(sql, params);
 
+    }
+
+    private DomainEvent toDomainEvent(final Event event) {
+        try {
+            return (DomainEvent) Json.readValue(event.eventData(), Class.forName(event.eventType()));
+        } catch (ClassNotFoundException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    private RowMap<Event> eventMapper() {
+        return (rs) -> new Event(
+                rs.getLong("event_id"),
+                rs.getBoolean("processed"),
+                rs.getString("aggregate_id"),
+                rs.getString("aggregate_type"),
+                rs.getString("event_type"),
+                rs.getObject("event_date", Instant.class),
+                rs.getBytes("event_data")
+        );
     }
 
     private record Event(

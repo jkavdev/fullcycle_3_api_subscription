@@ -9,29 +9,29 @@ import br.com.jkavdev.fullcycle.subscription.domain.person.Document;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Email;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Name;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.IdUtils;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.JdbcClient;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 @Repository
 public class AccountJdbcRepository implements AccountGateway {
 
-    private final JdbcClient jdbcClient;
+    private final DatabaseClient database;
 
     private final EventJdbcRepository eventJdbcRepository;
 
     public AccountJdbcRepository(
-            final JdbcClient jdbcClient,
+            final DatabaseClient database,
             final EventJdbcRepository eventJdbcRepository
     ) {
-        this.jdbcClient = Objects.requireNonNull(jdbcClient);
+        this.database = Objects.requireNonNull(database);
         this.eventJdbcRepository = Objects.requireNonNull(eventJdbcRepository);
     }
 
@@ -59,32 +59,11 @@ public class AccountJdbcRepository implements AccountGateway {
                 FROM accounts
                 WHERE id = :id
                 """;
-        return jdbcClient.sql(sql)
-                .param("id", anId.value())
-                .query(accountMapper())
-                .optional();
-    }
-
-    private RowMapper<Account> accountMapper() {
-        return (rs, rowNumber) -> {
-            String zipCode = rs.getString("address_zip_code");
-            return Account.with(
-                    new AccountId(rs.getString("id")),
-                    rs.getInt("version"),
-                    new UserId(rs.getString("idp_user_id")),
-                    new Email(rs.getString("email")),
-                    new Name(rs.getString("firstname"), rs.getString("lastname")),
-                    Document.create(rs.getString("document_number"), rs.getString("document_type")),
-                    zipCode != null && !zipCode.isBlank()
-                            ? new Address(
-                            zipCode,
-                            rs.getString("address_number"),
-                            rs.getString("address_complement"),
-                            rs.getString("address_country")
-                    )
-                            : null
-            );
-        };
+        return database.queryOne(
+                sql,
+                Map.of("id", anId.value()),
+                accountMapper()
+        );
     }
 
     @Override
@@ -181,11 +160,29 @@ public class AccountJdbcRepository implements AccountGateway {
         params.put("addressComplement", address != null ? address.complement() : "");
         params.put("addressCountry", address != null ? address.country() : "");
 
-        try {
-            return jdbcClient.sql(sql).params(params).update();
-        } catch (DataIntegrityViolationException exception) {
-            throw exception;
-        }
+        return database.update(sql, params);
+    }
+
+    private RowMap<Account> accountMapper() {
+        return (rs) -> {
+            String zipCode = rs.getString("address_zip_code");
+            return Account.with(
+                    new AccountId(rs.getString("id")),
+                    rs.getInt("version"),
+                    new UserId(rs.getString("idp_user_id")),
+                    new Email(rs.getString("email")),
+                    new Name(rs.getString("firstname"), rs.getString("lastname")),
+                    Document.create(rs.getString("document_number"), rs.getString("document_type")),
+                    zipCode != null && !zipCode.isBlank()
+                            ? new Address(
+                            zipCode,
+                            rs.getString("address_number"),
+                            rs.getString("address_complement"),
+                            rs.getString("address_country")
+                    )
+                            : null
+            );
+        };
     }
 
 }
