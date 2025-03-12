@@ -11,14 +11,9 @@ import br.com.jkavdev.fullcycle.subscription.domain.person.Email;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Name;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.context.jdbc.Sql;
 
 class AccountJdbcRepositoryTest extends AbstractRepositoryTest {
-
-    @Autowired
-    private JdbcClient jdbcClient;
 
     @Test
     void testAssertDependencies() {

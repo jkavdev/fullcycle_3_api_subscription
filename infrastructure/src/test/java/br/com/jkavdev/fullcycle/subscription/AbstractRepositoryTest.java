@@ -3,6 +3,7 @@ package br.com.jkavdev.fullcycle.subscription;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository.AccountJdbcRepository;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository.EventJdbcRepository;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository.PlanJdbcRepository;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository.SubscriptionJdbcRepository;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.JdbcClientAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -17,6 +18,7 @@ public abstract class AbstractRepositoryTest extends AbstractTest {
 
     private static final String ACCOUNT_TABLE = "accounts";
     private static final String PLAN_TABLE = "plans";
+    private static final String SUBSCRIPTION_TABLE = "subscriptions";
 
     @Autowired
     private JdbcClient jdbcClient;
@@ -27,11 +29,14 @@ public abstract class AbstractRepositoryTest extends AbstractTest {
 
     private PlanJdbcRepository planRepository;
 
+    private SubscriptionJdbcRepository subscriptionRepository;
+
     @BeforeEach
     void setUp() {
         eventRepository = new EventJdbcRepository(new JdbcClientAdapter(jdbcClient));
         accountRepository = new AccountJdbcRepository(new JdbcClientAdapter(jdbcClient), eventRepository);
         planRepository = new PlanJdbcRepository(new JdbcClientAdapter(jdbcClient));
+        subscriptionRepository = new SubscriptionJdbcRepository(new JdbcClientAdapter(jdbcClient), eventRepository);
     }
 
     protected int countAccounts() {
@@ -52,5 +57,13 @@ public abstract class AbstractRepositoryTest extends AbstractTest {
 
     protected PlanJdbcRepository planRepository() {
         return planRepository;
+    }
+
+    protected int countSubscriptions() {
+        return JdbcTestUtils.countRowsInTable(jdbcClient, SUBSCRIPTION_TABLE);
+    }
+
+    public SubscriptionJdbcRepository subscriptionRepository() {
+        return subscriptionRepository;
     }
 }

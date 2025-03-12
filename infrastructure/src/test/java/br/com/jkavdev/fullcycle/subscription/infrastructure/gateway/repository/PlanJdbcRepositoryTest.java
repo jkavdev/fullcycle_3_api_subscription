@@ -6,16 +6,11 @@ import br.com.jkavdev.fullcycle.subscription.domain.plan.Plan;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.Instant;
 
 class PlanJdbcRepositoryTest extends AbstractRepositoryTest {
-
-    @Autowired
-    private JdbcClient jdbcClient;
 
     @Test
     void testAssertDependencies() {

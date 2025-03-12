@@ -1,0 +1,48 @@
+package br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository;
+
+import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionGateway;
+import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionId;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
+import org.springframework.stereotype.Repository;
+
+import java.util.Objects;
+import java.util.Optional;
+
+@Repository
+public class SubscriptionJdbcRepository implements SubscriptionGateway {
+
+    private final DatabaseClient database;
+
+    private final EventJdbcRepository eventRepository;
+
+    public SubscriptionJdbcRepository(
+            final DatabaseClient database,
+            final EventJdbcRepository eventRepository
+    ) {
+        this.database = Objects.requireNonNull(database);
+        this.eventRepository = Objects.requireNonNull(eventRepository);
+    }
+
+
+    @Override
+    public SubscriptionId nextId() {
+        return null;
+    }
+
+    @Override
+    public Optional<Subscription> subscriptionOfId(SubscriptionId anId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Subscription save(Subscription subscription) {
+        return null;
+    }
+
+    @Override
+    public Optional<Subscription> latestSubscriptionOfAccount(AccountId accountId) {
+        return Optional.empty();
+    }
+}
