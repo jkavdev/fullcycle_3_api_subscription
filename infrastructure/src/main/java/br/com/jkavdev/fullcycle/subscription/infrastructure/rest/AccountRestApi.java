@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("accounts")
-@Tag(name = "Accounts")
+@Tag(name = "Account")
 public interface AccountRestApi {
 
     @PostMapping(

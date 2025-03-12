@@ -51,6 +51,7 @@ public class EventJdbcRepository {
             insertEvent(Event.newEvent(
                     ev.aggregateId(),
                     ev.aggregateType(),
+                    // para inner classes usamos o type name, pois incluira o $ que eh necessario ao deserializar a classe
                     ev.getClass().getTypeName(),
                     Json.writeValueAsBytes(ev)
             ));

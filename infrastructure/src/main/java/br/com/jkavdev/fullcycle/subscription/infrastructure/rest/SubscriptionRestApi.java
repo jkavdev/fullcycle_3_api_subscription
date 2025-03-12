@@ -45,7 +45,7 @@ public interface SubscriptionRestApi {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "cancel an active subscription")
+    @Operation(summary = "Cancel an active subscription")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "canceled successfully"),
@@ -62,7 +62,7 @@ public interface SubscriptionRestApi {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "charge an active subscription")
+    @Operation(summary = "Charge an active subscription")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "charged successfully"),
