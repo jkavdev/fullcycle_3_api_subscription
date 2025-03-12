@@ -85,6 +85,35 @@ class PlanJdbcRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
+    @Sql({"classpath:/sql/plans/seed-plan-master.sql"})
+    public void givenPersistedPlan_whenQueriesSuccessfully_shouldReturnThatExists() {
+        // given
+        Assertions.assertEquals(1, countPlans());
+
+        final var expectedExists = true;
+
+        // when
+        final var actualPlan = planRepository().existsPlanOfId(new PlanId(1L));
+
+        // then
+        Assertions.assertEquals(expectedExists, actualPlan);
+    }
+
+    @Test
+    public void givenEmptyTable_whenQueriesSuccessfully_shouldReturnThatNotExists() {
+        // given
+        Assertions.assertEquals(0, countPlans());
+
+        final var expectedExists = false;
+
+        // when
+        final var actualPlan = planRepository().existsPlanOfId(new PlanId(1L));
+
+        // then
+        Assertions.assertEquals(expectedExists, actualPlan);
+    }
+
+    @Test
     public void givenEmptyTable_whenInsertSuccessfully_shouldBePersisted() {
         // given
         Assertions.assertEquals(0, countPlans());
