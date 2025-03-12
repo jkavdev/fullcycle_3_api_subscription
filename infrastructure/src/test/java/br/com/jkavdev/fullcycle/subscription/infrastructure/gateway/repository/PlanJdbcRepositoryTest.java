@@ -54,6 +54,37 @@ class PlanJdbcRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
+    @Sql({"classpath:/sql/plans/seed-plans.sql"})
+    public void givenPersistedPlans_whenQueriesSuccessfully_shouldReturnIt() {
+        // given
+        Assertions.assertEquals(2, countPlans());
+
+        // when
+        final var actualPlans = planRepository().allPlans();
+
+        // then
+        Assertions.assertEquals(new PlanId(1L), actualPlans.getFirst().id());
+        Assertions.assertEquals(5, actualPlans.getFirst().version());
+        Assertions.assertEquals("Free", actualPlans.getFirst().name());
+        Assertions.assertEquals("Grátis para projetos pessoais", actualPlans.getFirst().description());
+        Assertions.assertEquals(true, actualPlans.getFirst().active());
+        Assertions.assertEquals(new Money("BRL", 0.0), actualPlans.getFirst().price());
+        Assertions.assertEquals(Instant.parse("2024-04-28T10:57:11.111Z"), actualPlans.getFirst().createdAt());
+        Assertions.assertEquals(Instant.parse("2024-04-28T10:58:11.111Z"), actualPlans.getFirst().updatedAt());
+        Assertions.assertNull(actualPlans.getFirst().deletedAt());
+
+        Assertions.assertEquals(new PlanId(2L), actualPlans.getLast().id());
+        Assertions.assertEquals(3, actualPlans.getLast().version());
+        Assertions.assertEquals("Plus", actualPlans.getLast().name());
+        Assertions.assertEquals("O plano top", actualPlans.getLast().description());
+        Assertions.assertEquals(false, actualPlans.getLast().active());
+        Assertions.assertEquals(new Money("BRL", 20.0), actualPlans.getLast().price());
+        Assertions.assertEquals(Instant.parse("2024-04-28T10:57:11.111Z"), actualPlans.getLast().createdAt());
+        Assertions.assertEquals(Instant.parse("2024-04-28T10:58:11.111Z"), actualPlans.getLast().updatedAt());
+        Assertions.assertEquals(Instant.parse("2024-04-28T10:59:11.111Z"), actualPlans.getLast().deletedAt());
+    }
+
+    @Test
     public void givenEmptyTable_whenInsertSuccessfully_shouldBePersisted() {
         // given
         Assertions.assertEquals(0, countPlans());

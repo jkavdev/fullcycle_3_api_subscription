@@ -53,7 +53,21 @@ public class PlanJdbcRepository implements PlanGateway {
 
     @Override
     public List<Plan> allPlans() {
-        return List.of();
+        final var sql = """
+                SELECT
+                    id,
+                    version,
+                    name,
+                    description,
+                    active,
+                    currency,
+                    amount,
+                    created_at,
+                    updated_at,
+                    deleted_at
+                FROM plans
+                """;
+        return database.query(sql, planMapper());
     }
 
     @Override
