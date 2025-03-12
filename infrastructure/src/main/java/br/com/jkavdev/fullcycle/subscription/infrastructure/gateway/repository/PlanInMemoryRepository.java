@@ -3,7 +3,6 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.Plan;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanId;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Component
+//@Component
 public class PlanInMemoryRepository implements PlanGateway {
 
     private static final AtomicLong id = new AtomicLong(1);
