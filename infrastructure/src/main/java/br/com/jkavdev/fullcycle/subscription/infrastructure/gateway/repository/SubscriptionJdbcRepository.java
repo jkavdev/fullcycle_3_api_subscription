@@ -5,6 +5,7 @@ import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanId;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.Subscription;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionId;
+import br.com.jkavdev.fullcycle.subscription.domain.utils.IdUtils;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import org.springframework.stereotype.Repository;
@@ -32,7 +33,31 @@ public class SubscriptionJdbcRepository implements SubscriptionGateway {
 
     @Override
     public SubscriptionId nextId() {
-        return null;
+        return new SubscriptionId(IdUtils.uniqueId());
+    }
+
+    @Override
+    public Optional<Subscription> latestSubscriptionOfAccount(final AccountId accountId) {
+        final var sql = """
+                SELECT
+                    id,
+                    version,
+                    account_id,
+                    plan_id,
+                    created_at,
+                    updated_at,
+                    due_date,
+                    status,
+                    last_renew_dt,
+                    last_transaction_id
+                FROM subscriptions
+                WHERE account_id = :accountId
+                """;
+        return database.queryOne(
+                sql,
+                Map.of("accountId", accountId.value()),
+                subscriptionMapper()
+        );
     }
 
     @Override
@@ -62,11 +87,6 @@ public class SubscriptionJdbcRepository implements SubscriptionGateway {
     @Override
     public Subscription save(Subscription subscription) {
         return null;
-    }
-
-    @Override
-    public Optional<Subscription> latestSubscriptionOfAccount(AccountId accountId) {
-        return Optional.empty();
     }
 
     private RowMap<Subscription> subscriptionMapper() {
