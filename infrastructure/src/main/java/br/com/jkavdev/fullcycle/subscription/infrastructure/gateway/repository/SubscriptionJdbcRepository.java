@@ -9,8 +9,10 @@ import br.com.jkavdev.fullcycle.subscription.domain.utils.IdUtils;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -85,8 +87,89 @@ public class SubscriptionJdbcRepository implements SubscriptionGateway {
     }
 
     @Override
-    public Subscription save(Subscription subscription) {
-        return null;
+    @Transactional
+    public Subscription save(final Subscription subscription) {
+        if (subscription.version() == 0) {
+            create(subscription);
+        } else {
+            update(subscription);
+        }
+
+        eventRepository.saveAll(subscription.domainEvents());
+
+        return subscription;
+    }
+
+    private void create(final Subscription subscription) {
+        final var sql = """
+                INSERT INTO subscriptions(
+                    id,
+                    version,
+                    account_id,
+                    plan_id,
+                    created_at,
+                    updated_at,
+                    due_date,
+                    status,
+                    last_renew_dt,
+                    last_transaction_id
+                )
+                values(
+                    :id,
+                    (:version + 1),
+                    :accountId,
+                    :planId,
+                    :createdAt,
+                    :updatedAt,
+                    :dueDate,
+                    :status,
+                    :lastRenewDt,
+                    :lastTransactionId
+                )
+                """;
+        executeUpdate(sql, subscription);
+    }
+
+    private void update(final Subscription subscription) {
+        final var sql = """
+                UPDATE subscriptions SET
+                    version = :version + 1,
+                    account_id = :accountId,
+                    plan_id = :planId,
+                    created_at = :createdAt,
+                    updated_at = :updatedAt,
+                    due_date = :dueDate,
+                    status = :status,
+                    last_renew_dt = :lastRenewDt,
+                    last_transaction_id = :lastTransactionId
+                WHERE id = :id AND version = :version
+                """;
+
+        if (executeUpdate(sql, subscription) == 0) {
+            throw new IllegalArgumentException(
+                    "subscription with id %s and version %s was not fount".formatted(
+                            subscription.id().value(), subscription.version()
+                    )
+            );
+        }
+
+    }
+
+    private int executeUpdate(final String sql, final Subscription subscription) {
+        final var params = new HashMap<String, Object>();
+        params.put("id", subscription.id().value());
+        params.put("version", subscription.version());
+        params.put("accountId", subscription.accountId().value());
+        params.put("planId", subscription.planId().value());
+        params.put("createdAt", subscription.createdAt());
+        params.put("updatedAt", subscription.updatedAt());
+        params.put("dueDate", subscription.dueDate());
+        params.put("status", subscription.status().value());
+        params.put("lastRenewDt", subscription.lastRenewDate());
+        params.put("lastTransactionId", subscription.lastTransactionId());
+
+
+        return database.update(sql, params);
     }
 
     private RowMap<Subscription> subscriptionMapper() {
