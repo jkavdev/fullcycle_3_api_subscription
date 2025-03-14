@@ -3,6 +3,7 @@ package br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.repository;
 import br.com.jkavdev.fullcycle.subscription.domain.DomainEvent;
 import br.com.jkavdev.fullcycle.subscription.domain.utils.InstantUtils;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.JdbcUtils;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.json.Json;
 import org.springframework.stereotype.Repository;
@@ -105,7 +106,7 @@ public class EventJdbcRepository {
                 rs.getString("aggregate_id"),
                 rs.getString("aggregate_type"),
                 rs.getString("event_type"),
-                rs.getObject("event_date", Instant.class),
+                JdbcUtils.getInstant(rs, "event_date"),
                 rs.getString("event_data")
         );
     }

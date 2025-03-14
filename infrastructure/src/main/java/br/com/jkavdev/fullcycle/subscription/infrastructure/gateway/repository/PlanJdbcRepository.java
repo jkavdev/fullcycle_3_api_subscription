@@ -5,12 +5,12 @@ import br.com.jkavdev.fullcycle.subscription.domain.plan.Plan;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.plan.PlanId;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
+import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.JdbcUtils;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.*;
 
 @Repository
@@ -175,9 +175,9 @@ public class PlanJdbcRepository implements PlanGateway {
                         rs.getString("currency"),
                         rs.getDouble("amount")
                 ),
-                rs.getObject("created_at", Instant.class),
-                rs.getObject("updated_at", Instant.class),
-                rs.getObject("deleted_at", Instant.class)
+                JdbcUtils.getInstant(rs, "created_at"),
+                JdbcUtils.getInstant(rs, "updated_at"),
+                JdbcUtils.getInstant(rs, "deleted_at")
         );
     }
 

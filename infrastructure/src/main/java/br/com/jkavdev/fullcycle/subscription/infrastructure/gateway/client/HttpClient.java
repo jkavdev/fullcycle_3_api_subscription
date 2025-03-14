@@ -1,4 +1,4 @@
-package br.com.jkavdev.fullcycle.subscription.infrastructure.utils;
+package br.com.jkavdev.fullcycle.subscription.infrastructure.gateway.client;
 
 import br.com.jkavdev.fullcycle.subscription.domain.exceptions.InternalErrorException;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.exceptions.NotFoundException;
