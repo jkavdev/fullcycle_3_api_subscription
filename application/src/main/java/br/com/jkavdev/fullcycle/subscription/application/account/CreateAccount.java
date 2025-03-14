@@ -8,6 +8,8 @@ public abstract class CreateAccount extends UseCase<CreateAccount.Input, CreateA
     public interface Input {
         String userId();
 
+        String accountId();
+
         String firstname();
 
         String lastname();

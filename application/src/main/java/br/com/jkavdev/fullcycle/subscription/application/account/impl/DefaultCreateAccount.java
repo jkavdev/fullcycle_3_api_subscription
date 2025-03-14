@@ -30,7 +30,7 @@ public class DefaultCreateAccount extends CreateAccount {
 
     private Account newAccountWith(final Input input) {
         return Account.newAccount(
-                accountGateway.nextId(),
+                new AccountId(input.accountId()),
                 new UserId(input.userId()),
                 new Email(input.email()),
                 new Name(input.firstname(), input.lastname()),

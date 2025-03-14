@@ -1,6 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.application.account.impl;
 
 import br.com.jkavdev.fullcycle.subscription.application.account.CreateIdpUser;
+import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.IdentityProviderGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.User;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.UserId;
@@ -27,6 +28,7 @@ public class DefaultCreateIdpUser extends CreateIdpUser {
 
     private User userWith(final Input input) {
         return User.newUser(
+                new AccountId(input.accountId()),
                 new Name(input.firstname(), input.lastname()),
                 new Email(input.email()),
                 input.password()

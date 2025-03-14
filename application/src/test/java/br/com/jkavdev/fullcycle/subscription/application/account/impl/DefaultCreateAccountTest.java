@@ -46,8 +46,6 @@ class DefaultCreateAccountTest extends UnitTest {
         final var expectedUserId = new UserId("qualquerId");
         final var expectedAccountId = new AccountId("qualquerId");
 
-        Mockito.when(accountGateway.nextId())
-                .thenReturn(expectedAccountId);
         Mockito.when(accountGateway.save(Mockito.any()))
                 .thenAnswer(AdditionalAnswers.returnsFirstArg());
 
@@ -55,6 +53,7 @@ class DefaultCreateAccountTest extends UnitTest {
         final var actualOutput =
                 target.execute(new CreateAccountTestInput(
                         expectedUserId.value(),
+                        expectedAccountId.value(),
                         expectedFirstname,
                         expectedLastname,
                         expectedEmail,
@@ -69,6 +68,7 @@ class DefaultCreateAccountTest extends UnitTest {
 
     record CreateAccountTestInput(
             String userId,
+            String accountId,
             String firstname,
             String lastname,
             String email,
