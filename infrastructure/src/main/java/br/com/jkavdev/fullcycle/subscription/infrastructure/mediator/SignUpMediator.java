@@ -48,37 +48,4 @@ public class SignUpMediator {
         return req -> createAccount.execute(req, SignUpResponse::new);
     }
 
-    record CreateAccountInput(SignUpRequest req, String userId) implements CreateAccount.Input {
-
-        @Override
-        public String firstname() {
-            return req().firstname();
-        }
-
-        @Override
-        public String accountId() {
-            return req.accountId();
-        }
-
-        @Override
-        public String lastname() {
-            return req().lastname();
-        }
-
-        @Override
-        public String email() {
-            return req().email();
-        }
-
-        @Override
-        public String documentNumber() {
-            return req().documentNumber();
-        }
-
-        @Override
-        public String documentType() {
-            return req().documentType();
-        }
-    }
-
 }

@@ -22,20 +22,20 @@ public record SignUpRequest(
 
     @JsonCreator
     public SignUpRequest(
-            @JsonProperty("document_number") String documentNumber,
-            @JsonProperty("document_type") String documentType,
-            @JsonProperty("password") String password,
-            @JsonProperty("email") String email,
+            @JsonProperty("firstname") String firstname,
             @JsonProperty("lastname") String lastname,
-            @JsonProperty("firstname") String firstname
+            @JsonProperty("email") String email,
+            @JsonProperty("password") String password,
+            @JsonProperty("document_type") String documentType,
+            @JsonProperty("document_number") String documentNumber
     ) {
         this(
-                documentNumber,
-                documentType,
-                password,
-                email,
-                lastname,
                 firstname,
+                lastname,
+                email,
+                password,
+                documentType,
+                documentNumber,
                 "",
                 ""
         );
@@ -43,12 +43,12 @@ public record SignUpRequest(
 
     public SignUpRequest with(final CreateIdpUser.Output output) {
         return new SignUpRequest(
-                documentNumber(),
-                documentType(),
-                password(),
-                email(),
-                lastname(),
                 firstname(),
+                lastname(),
+                email(),
+                password(),
+                documentType(),
+                documentNumber(),
                 output.idpUserId().value(),
                 accountId()
         );
@@ -56,12 +56,12 @@ public record SignUpRequest(
 
     public SignUpRequest with(final AccountId accountId) {
         return new SignUpRequest(
-                documentNumber(),
-                documentType(),
-                password(),
-                email(),
-                lastname(),
                 firstname(),
+                lastname(),
+                email(),
+                password(),
+                documentType(),
+                documentNumber(),
                 userId(),
                 accountId.value()
         );
