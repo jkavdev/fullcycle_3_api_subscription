@@ -1,13 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.infrastructure.configuration.usecases;
 
-import br.com.jkavdev.fullcycle.subscription.application.account.AddToGroup;
-import br.com.jkavdev.fullcycle.subscription.application.account.CreateAccount;
-import br.com.jkavdev.fullcycle.subscription.application.account.CreateIdpUser;
-import br.com.jkavdev.fullcycle.subscription.application.account.RemoveFromGroup;
-import br.com.jkavdev.fullcycle.subscription.application.account.impl.DefaultAddToGroup;
-import br.com.jkavdev.fullcycle.subscription.application.account.impl.DefaultCreateAccount;
-import br.com.jkavdev.fullcycle.subscription.application.account.impl.DefaultCreateIdpUser;
-import br.com.jkavdev.fullcycle.subscription.application.account.impl.DefaultRemoveFromGroup;
+import br.com.jkavdev.fullcycle.subscription.application.account.*;
+import br.com.jkavdev.fullcycle.subscription.application.account.impl.*;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.account.idp.IdentityProviderGateway;
 import br.com.jkavdev.fullcycle.subscription.domain.subscription.SubscriptionGateway;
@@ -43,6 +37,11 @@ public class AccountUseCaseConfig {
             final AccountGateway accountGateway
     ) {
         return new DefaultRemoveFromGroup(identityProviderGateway, subscriptionGateway, accountGateway);
+    }
+
+    @Bean
+    UpdateBillingInfo updateBillingInfo(final AccountGateway accountGateway) {
+        return new DefaultUpdateBillingInfo(accountGateway);
     }
 
 }

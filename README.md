@@ -202,6 +202,8 @@ gradle wrapper
 
 # TODOs
 
+* implementar o GET do account
+
 * implementar outros testes unitarios mencionados na aula 0704
 
 * quando informado um usuario sem claims no token, e nao eh encontrada as claims pra o usuario pela aplicacao
