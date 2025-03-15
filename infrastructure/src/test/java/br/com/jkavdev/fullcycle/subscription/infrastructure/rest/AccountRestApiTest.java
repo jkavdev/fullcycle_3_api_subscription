@@ -1,6 +1,7 @@
 package br.com.jkavdev.fullcycle.subscription.infrastructure.rest;
 
 import br.com.jkavdev.fullcycle.subscription.ControllerTest;
+import br.com.jkavdev.fullcycle.subscription.application.account.UpdateBillingInfo;
 import br.com.jkavdev.fullcycle.subscription.domain.account.AccountId;
 import br.com.jkavdev.fullcycle.subscription.domain.person.Document;
 import br.com.jkavdev.fullcycle.subscription.infrastructure.mediator.SignUpMediator;
@@ -29,6 +30,9 @@ public class AccountRestApiTest {
 
     @MockBean
     private SignUpMediator signUpMediator;
+
+    @MockBean
+    private UpdateBillingInfo updateBillingInfo;
 
     @Captor
     private ArgumentCaptor<SignUpRequest> signUpRequestCaptor;

@@ -88,17 +88,15 @@ public class PlanJdbcRepository implements PlanGateway {
     @Transactional(propagation = Propagation.REQUIRED)
     public Plan save(final Plan plan) {
         if (plan.version() == 0) {
-            create(plan);
+            return create(plan);
         } else {
-            update(plan);
+            return update(plan);
         }
-        return plan;
     }
 
-    public void create(final Plan plan) {
+    public Plan create(final Plan plan) {
         final var sql = """
                 INSERT INTO plans(
-                    id,
                     version,
                     name,
                     description,
@@ -109,7 +107,6 @@ public class PlanJdbcRepository implements PlanGateway {
                     updated_at,
                     deleted_at)
                 values(
-                    :id,
                     (:version + 1),
                     :name,
                     :description,
@@ -121,10 +118,11 @@ public class PlanJdbcRepository implements PlanGateway {
                     :deletedAt
                 )
                 """;
-        executeUpdate(sql, plan);
+        final var id = this.database.insert(sql, createParams(plan));
+        return plan.withId(new PlanId(id.longValue()));
     }
 
-    public void update(final Plan plan) {
+    public Plan update(final Plan plan) {
         final var sql = """
                 UPDATE plans SET
                     version = :version + 1,
@@ -139,14 +137,15 @@ public class PlanJdbcRepository implements PlanGateway {
                 WHERE id = :id AND version = :version
                 """;
 
-        if (executeUpdate(sql, plan) == 0) {
+        if (this.database.update(sql, createParams(plan)) == 0) {
             throw new IllegalArgumentException(
                     "plan with id %s and version %s was not fount".formatted(plan.id().value(), plan.version())
             );
         }
+        return plan;
     }
 
-    private int executeUpdate(final String sql, final Plan plan) {
+    private HashMap<String, Object> createParams(final Plan plan) {
         final var params = new HashMap<String, Object>();
         if (!Objects.equals(plan.id(), PlanId.empty())) {
             params.put("id", plan.id().value());
@@ -161,7 +160,7 @@ public class PlanJdbcRepository implements PlanGateway {
         params.put("updatedAt", plan.updatedAt());
         params.put("deletedAt", plan.deletedAt());
 
-        return database.update(sql, params);
+        return params;
     }
 
     private RowMap<Plan> planMapper() {

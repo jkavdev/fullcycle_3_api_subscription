@@ -21,8 +21,7 @@ public class DefaultCreatePlan extends CreatePlan {
         if (input == null) {
             throw new IllegalArgumentException("input to DefaultCreatePlan cannot be null");
         }
-        final var aPlan = newPlanWith(input);
-        planGateway.save(aPlan);
+        final var aPlan = planGateway.save(newPlanWith(input));
         return new StdOutput(aPlan.id());
     }
 

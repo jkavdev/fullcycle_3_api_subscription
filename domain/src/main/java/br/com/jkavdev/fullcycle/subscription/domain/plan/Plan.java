@@ -109,6 +109,20 @@ public class Plan extends AggregateRoot<PlanId> {
         );
     }
 
+    public Plan withId(final PlanId aPlanId) {
+        return Plan.with(
+                aPlanId,
+                version(),
+                name(),
+                description(),
+                active(),
+                price(),
+                createdAt(),
+                updatedAt(),
+                deletedAt()
+        );
+    }
+
     public int version() {
         return version;
     }
