@@ -16,8 +16,8 @@ public record ChargeSubscriptionResponse(
                 output.subscriptionId().value(),
                 output.subscriptionStatus(),
                 output.subscriptionDueDate().toString(),
-                output.paymentTransaction().transactionId(),
-                output.paymentTransaction().errorMessage()
+                output.paymentTransaction() == null ? null : output.paymentTransaction().transactionId(),
+                output.paymentTransaction() == null ? null :output.paymentTransaction().errorMessage()
         );
     }
 
